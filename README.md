@@ -29,7 +29,7 @@ The only prerequisite for running this pipeline is to have conda (or miniconda) 
 
 Go to the directory in which you want the repository to be cloned, clone the repository using `git clone` and enter into the directory.
 
-```
+``` sh {eval=FALSE}
 cd /home/my/desired/directory
 git clone https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics.git
 cd Bioinfo_Macro_Host_Transcriptomics
@@ -43,7 +43,7 @@ By default the directory in which the reference host genome should be placed is 
 
 The following code shows an example in which the [chicken genome galgal7](https://www.ncbi.nlm.nih.gov/genome/?term=gallus+gallus) is downloaded from the NCBI.
 
-```
+``` sh {eval=FALSE}
 cd 1_Data/0_Genome/
 wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/016/699/485/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b_genomic.fna.gz
 wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/016/699/485/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b_genomic.gff.gz
