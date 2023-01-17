@@ -27,11 +27,14 @@ The only prerequisite for running this pipeline is to have conda (or miniconda) 
 
 ### 2) Clone the repository to the desired directory
 
-Go to the directory in which you want the repository to be cloned, clone the repository using `git clone` and enter into the directory.
+Go to the directory in which you want the repository to be cloned, clone the repository using `git clone` and enter into the directory. If the repository is private, but your Github user account has been given access to it, you first need to create a Personal Access Token on Github. From your Github account, go to Settings => Developer Settings => Personal Access Token => Generate New Token (Give your password) => Fillup the form => click Generate token => Copy the generated Token, it will be something like `ghp_sFhFsSHhTzMDreGRLjmks4Tzuzgthdvfsrta`. Then replace `{PERSONAL-ACCESS-TOKEN}` in the code below with the token code.
 
 ``` sh {eval=FALSE}
 cd /home/my/desired/directory
+#If the repository is publicly available:
 git clone https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics.git
+#If the repository is private
+git clone https://{PERSONAL-ACCESS-TOKEN}@github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics.git
 cd Bioinfo_Macro_Host_Transcriptomics
 ```
 
@@ -62,13 +65,13 @@ mv /home/my/data/*.2.fq.gz 1_Data/1_Untrimmed/
 Alternatively, symbolic links can be created to avoid moving or duplicating files:
 
 ``` sh {eval=FALSE}
-ln -s /home/my/data/*.1.fq.gz 1_Data/1_Untrimmed/
-ln -s /home/my/data/*.2.fq.gz 1_Data/1_Untrimmed/
+ln -s /home/my/data/*1.fq.gz 1_Data/1_Untrimmed/
+ln -s /home/my/data/*2.fq.gz 1_Data/1_Untrimmed/
 ```
 
 ### 5) Launch the snakemake pipeline
 
-Once the above-described steps are conducted, the pipeline can be ran using the following script. Note that the `--cluster` argument probably needs to be modified to adjust to your clusters' setup.
+Once the above-described steps are conducted, the pipeline can be ran using the following script. The script must be launched from the directory of the repository, as otherwise the relative paths will not work. Note that the `--cluster` argument probably needs to be modified to adjust to your clusters' setup.
 
 ``` sh {eval=FALSE}
 snakemake \
@@ -76,6 +79,29 @@ snakemake \
 -j 32 \
 --cluster "sbatch --mem {resources.mem_gb}G --time {resources.time} -c {threads} -v" \
 --use-conda \
---conda-frontend mamba \
+--conda-frontend conda \
+--latency-wait 600
+```
+
+The terminal should prompt something like this:
+
+```
+#> Detected the following samples:
+#> ['SAMPLE1', 'SAMPLE2']
+#> Building DAG of jobs...
+#> Creating conda environment 0_Bin/conda_env.yml...
+#> Downloading and installing remote packages.
+```
+
+The initial setup of the conda environment will take a while. If the conda environment has already been created in the system, then this can be declared as a `snakemake` argument.
+
+``` sh {eval=FALSE}
+snakemake \
+-s 0_Bin/pipeline.snakefile \
+-j 32 \
+--cluster "sbatch --mem {resources.mem_gb}G --time {resources.time} -c {threads} -v" \
+--use-conda \
+--conda-frontend conda \
+--conda-prefix /home/path/to/environments \
 --latency-wait 600
 ```
