@@ -54,14 +54,14 @@ cd ../../
 
 Raw sequencing reads must be placed in the directory `1_Data/1_Untrimmed` in order for the snakemake pipeline to recognise the input. The data files can be moved to that directory with the following code:
 
-```
+``` sh {eval=FALSE}
 mv /home/my/data/*.1.fq.gz 1_Data/1_Untrimmed/
 mv /home/my/data/*.2.fq.gz 1_Data/1_Untrimmed/
 ```
 
 Alternatively, symbolic links can be created to avoid moving or duplicating files:
 
-```
+``` sh {eval=FALSE}
 ln -s /home/my/data/*.1.fq.gz 1_Data/1_Untrimmed/
 ln -s /home/my/data/*.2.fq.gz 1_Data/1_Untrimmed/
 ```
@@ -70,7 +70,7 @@ ln -s /home/my/data/*.2.fq.gz 1_Data/1_Untrimmed/
 
 Once the above-described steps are conducted, the pipeline can be ran using the following script. Note that the `--cluster` argument probably needs to be modified to adjust to your clusters' setup.
 
-```
+``` sh {eval=FALSE}
 snakemake \
 -s 0_Bin/pipeline.snakefile \
 -j 32 \
