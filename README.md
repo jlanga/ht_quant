@@ -1,2 +1,2 @@
-# Bioinfo_Macro_Host_Transcriptomics
+# Macro-scale Host Transcriptomics Bioinformatics
 Repository containing bioinformatic code for macro-scale host transcriptomic data processing
