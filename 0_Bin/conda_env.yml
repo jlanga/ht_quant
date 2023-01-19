@@ -1,4 +1,4 @@
- name: Macro_Host_Transcriptomics
+ name: 3Domics_Macro_Host_Transcriptomics
  channels:
     - conda-forge
     - bioconda
