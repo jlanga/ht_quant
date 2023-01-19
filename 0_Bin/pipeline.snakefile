@@ -167,7 +167,7 @@ rule STAR_host_index:
 
         #Convert GFF to GTF
         gtffile=$(ls {input}/*.gff | sed s/gff/gtf/)
-        gffread {input}/*.gff -T -o ${gtffile}
+        gffread {input}/*.gff -T -o ${{gtffile}}
 
         #Index genome
         STAR \
