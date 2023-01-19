@@ -37,8 +37,27 @@ git clone https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics.git
 git clone https://{PERSONAL-ACCESS-TOKEN}@github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics.git
 cd Bioinfo_Macro_Host_Transcriptomics
 ```
-
 Note that all paths shown from now on are relative to the path of the repository.
+
+### 3) Create a screen session
+
+The snakemake pipeline will launch jobs to the server job queue as required to complete the entire task in the most optimal way. However, some jobs will be sent only when previous ones have completed, which  requires the session to be active while the pipeline is finished. To avoid disconnections to the remote server to interrupt the pipeline is desirable to create a screen session, and launch the pipeline within.
+
+To create a screen session:
+
+``` sh {eval=FALSE}
+screen -S the_name_I_want_for_my_session
+```
+
+To get out from the screen session type `ctrl+A` followed by `D`.
+
+To (re-)enter into that session:  
+
+``` sh {eval=FALSE}
+screen -r the_name_I_want_for_my_session
+```
+
+To finish the screen session type `exit`.
 
 ### 3) Place reference genome in the repository
 
