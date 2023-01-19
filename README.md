@@ -124,3 +124,24 @@ snakemake \
 --conda-prefix /home/path/to/environments \
 --latency-wait 600
 ```
+
+If the conda environment already exists, snakemake will directly start processing the data, and will prompt something like this:
+
+``` sh {eval=FALSE}
+#> Detected the following samples:
+#> ['C001aHc1_FKRN220332010-1A_H3JY3DSX5_L4', 'C002aHc1_FKRN220332011-1A_H3J2FDSX5_L1']
+#> Building DAG of jobs...
+#> Using shell: /usr/bin/bash
+#> Provided cluster nodes: 32
+#> Job stats:
+#> job                  count    min threads    max threads
+#> -----------------  -------  -------------  -------------
+#> STAR_host_index          1             48             48
+#> STAR_host_mapping        2             24             24
+#> all                      1              1              1
+#> qualityfiltering         2              8              8
+#> ribodetector             2             24             24
+#> total                    8              1             48
+#>
+#> Select jobs to execute...
+```
