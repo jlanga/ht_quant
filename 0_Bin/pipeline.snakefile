@@ -157,18 +157,25 @@ rule STAR_host_index:
         "Indexing the host genome using STAR"
     shell:
         """
+        #Gunzip genome files if necessary
         if test -f {input}/*.fna.gz; then
             gunzip {input}/*.fna.gz
         fi
         if test -f {input}/*.gff.gz; then
             gunzip {input}/*.gff.gz
         fi
+
+        #Convert GFF to GTF
+        gtffile=$(ls {input}/*.gff | sed s/gff/gtf/)
+        gffread {input}/*.gff -T -o ${gtffile}
+
+        #Index genome
         STAR \
             --runMode genomeGenerate \
             --runThreadN {threads} \
             --genomeDir {input} \
             --genomeFastaFiles {input}/*.fna \
-            --sjdbGTFfile {input}/*.gff \
+            --sjdbGTFfile {input}/*.gtf \
             --sjdbOverhang {params.readlength}
         """
 ################################################################################
