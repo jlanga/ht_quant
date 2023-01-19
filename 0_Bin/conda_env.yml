@@ -1,4 +1,4 @@
- name: Transcriptomics
+ name: Macro_Host_Transcriptomics
  channels:
     - conda-forge
     - bioconda
