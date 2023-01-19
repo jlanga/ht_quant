@@ -160,15 +160,15 @@ rule STAR_host_index:
         if test -f {input}/*.fna.gz; then
             gunzip {input}/*.fna.gz
         fi
-        if test -f {input}/*.gtf.gz; then
-            gunzip {input}/*.fna.gz
+        if test -f {input}/*.gff.gz; then
+            gunzip {input}/*.gff.gz
         fi
         STAR \
             --runMode genomeGenerate \
             --runThreadN {threads} \
             --genomeDir {input} \
             --genomeFastaFiles {input}/*.fna \
-            --sjdbGTFfile {input}/*.gtf \
+            --sjdbGTFfile {input}/*.gff \
             --sjdbOverhang {params.readlength}
         """
 ################################################################################
