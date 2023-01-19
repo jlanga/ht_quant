@@ -71,7 +71,7 @@ ln -s /home/my/data/*2.fq.gz 1_Data/1_Untrimmed/
 
 ### 5) Launch the snakemake pipeline
 
-Once the above-described steps are conducted, the pipeline can be ran using the following script. The script must be launched from the directory of the repository, as otherwise the relative paths will not work. Note that the `--cluster` argument probably needs to be modified to adjust to your clusters' setup.
+Once the above-described steps are conducted, the pipeline can be ran using the following script. The script must be launched from the directory of the repository, as otherwise the relative paths will not work. Note that the `--cluster` argument probably needs to be modified to adjust to your cluster's setup.
 
 ``` sh {eval=FALSE}
 snakemake \
@@ -93,7 +93,7 @@ The terminal should prompt something like this:
 #> Downloading and installing remote packages.
 ```
 
-The initial setup of the conda environment will take a while. If the conda environment has already been created in the system, then this can be declared as a `snakemake` argument.
+The initial setup of the conda environment will take a while, as all the required software will need to be downloaded and installed in the system. If the conda environment has already been created in the system, then this can be declared as a `snakemake` argument to avoid repeating this tedious step.
 
 ``` sh {eval=FALSE}
 snakemake \

@@ -157,6 +157,12 @@ rule STAR_host_index:
         "Indexing the host genome using STAR"
     shell:
         """
+        if test -f "{input}/*.fna.gz"; then
+            gunzip {input}/*.fna.gz
+        fi
+        if test -f "{input}/*.gtf.gz"; then
+            gunzip {input}/*.fna.gz
+        fi    
         STAR \
             --runMode genomeGenerate \
             --runThreadN {threads} \
