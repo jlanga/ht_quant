@@ -27,7 +27,7 @@ rule star_index:
         """
 
 
-rule star_align:
+rule star_align_one:
     input:
         r1=FASTP / "{sample}.{library}_1.fq.gz",
         r2=FASTP / "{sample}.{library}_2.fq.gz",
@@ -65,7 +65,7 @@ rule star_align:
         """
 
 
-rule star_compress_unpaired:
+rule star_compress_unpaired_one:
     input:
         u1=STAR / "{sample}.{library}.Unmapped.out.mate1",
         u2=STAR / "{sample}.{library}.Unmapped.out.mate2",
@@ -93,15 +93,15 @@ rule star_compress_all:
         ],
 
 
-rule star_cram:
+rule star_cram_one:
     input:
         bam=STAR / "{sample}.{library}.Aligned.sortedByCoord.out.bam",
         reference=REFERENCE / "genome.fa",
     output:
-        cram=STAR / "{sample}.{library}.Aligned.sortedByCoord.out.cram",
+        cram=protected(STAR / "{sample}.{library}.Aligned.sortedByCoord.out.cram"),
         crai=STAR / "{sample}.{library}.Aligned.sortedByCoord.out.cram.crai",
     log:
-        STAR / "{sample}.{library}.cram.log",
+        STAR / "{sample}.{library}.Aligned.sortedByCoord.out.cram.log",
     conda:
         "../envs/star.yml"
     threads: 24
@@ -142,3 +142,8 @@ rule star_all:
         rules.star_compress_all.input,
         rules.star_cram_all.input,
         rules.star_report_all.input,
+
+
+rule star:
+    input:
+        rules.star_all.input,
