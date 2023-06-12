@@ -55,10 +55,30 @@ rule fastp_trim_all:
         ],
 
 
+rule fastp_fastqc_one:
+    """Run fastqc on one library"""
+    input:
+        fastq=FASTP / "{sample}.{library}_{end}.fq.gz",
+    output:
+        html=FASTP / "{sample}.{library}_{end}_fastqc.html",
+        zip_=FASTP / "{sample}.{library}_{end}_fastqc.zip",
+    log:
+        FASTP / "{sample}.{library}_{end}_fastqc.log",
+    conda:
+        "../envs/fastp.yml"
+    shell:
+        "fastqc --quiet {input} 2> {log} 1>&2"
+
+
 rule fastp_report_all:
     """Collect fastp reports"""
     input:
         [FASTP / f"{sample}.{library}_fastp.json" for sample, library in SAMPLE_LIB],
+        [
+            FASTP / f"{sample}.{library}_{end}_fastqc.zip"
+            for sample, library in SAMPLE_LIB
+            for end in "1 2".split(" ")
+        ],
 
 
 rule fastp:

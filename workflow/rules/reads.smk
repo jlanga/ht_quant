@@ -9,7 +9,7 @@ rule reads_link_one:
     log:
         READS / "{sample}.{library}.log",
     conda:
-        "../envs/empty.yml"
+        "../envs/reads.yml"
     shell:
         """
         ln --symbolic $(readlink --canonicalize {input.forward_}) {output.forward_}
@@ -25,6 +25,20 @@ rule reads_link_all:
             for sample, library in SAMPLE_LIB
             for end in ["1", "2"]
         ],
+
+
+rule reads_fastqc_one:
+    input:
+        fastq=READS / "{sample}.{library}_{end}.fq.gz",
+    output:
+        html=READS / "{sample}.{library}_{end}_fastqc.html",
+        zip_=READS / "{sample}.{library}_{end}_fastqc.zip",
+    log:
+        READS / "{sample}.{library}_{end}_fastqc.log",
+    conda:
+        "../envs/reads.yml"
+    shell:
+        "fastqc --quiet {input} 2> {log} 1>&2"
 
 
 rule reads_fastqc_all:
