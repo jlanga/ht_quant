@@ -76,3 +76,10 @@ rule report_step:
         rules.report_step_reads.output,
         rules.report_step_fastp.output,
         rules.report_step_star.output,
+
+
+localrules:
+    report_step_reads,
+    report_step_fastp,
+    report_step_star,
+    report_step,

@@ -49,3 +49,9 @@ rule report_library:
     """Make all MultiQC reports per library"""
     input:
         rules.report_library_all.input,
+
+
+localrules:
+    report_library_one,
+    report_library_all,
+    report_library,
