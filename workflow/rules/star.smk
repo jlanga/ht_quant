@@ -110,7 +110,6 @@ rule star_cram_one:
         reference=REFERENCE / "genome.fa",
     output:
         cram=protected(STAR / "{sample}.{library}.Aligned.sortedByCoord.out.cram"),
-        crai=STAR / "{sample}.{library}.Aligned.sortedByCoord.out.cram.crai",
     log:
         STAR / "{sample}.{library}.Aligned.sortedByCoord.out.cram.log",
     conda:
@@ -128,7 +127,6 @@ rule star_cram_one:
             --output-fmt CRAM \
             --reference {input.reference} \
             -@ {threads} \
-            --write-index \
             {input.bam} \
         2> {log} 1>&2
         """
@@ -147,6 +145,11 @@ rule star_report_all:
     """Collect star reports"""
     input:
         [STAR / f"{sample}.{library}.Log.final.out" for sample, library in SAMPLE_LIB],
+        [
+            STAR / f"{sample}.{library}.Aligned.sortedByCoord.out.{extension}"
+            for sample, library in SAMPLE_LIB
+            for extension in BAM_REPORTS
+        ],
 
 
 rule star_all:
