@@ -39,6 +39,7 @@ rule star_align_one:
         u1=temp(STAR / "{sample}.{library}.Unmapped.out.mate1"),
         u2=temp(STAR / "{sample}.{library}.Unmapped.out.mate2"),
         report=STAR / "{sample}.{library}.Log.final.out",
+        tab=STAR / "{sample}.{library}.ReadsPerGene.out.tab",
     log:
         STAR / "{sample}.{library}.log",
     params:
@@ -62,7 +63,7 @@ rule star_align_one:
             --outSAMtype BAM SortedByCoordinate \
             --outReadsUnmapped Fastx \
             --readFilesCommand "gzip -cd" \
-            --quantMode TranscriptomeSAM \
+            --quantMode GeneCounts \
         2>> {log} 1>&2
         """
 
@@ -70,7 +71,10 @@ rule star_align_one:
 rule star_align_all:
     """Align all libraries with STAR"""
     input:
-        [STAR / f"{sample}.{library}.Log.final.out" for sample, library in SAMPLE_LIB],
+        [
+            STAR / f"{sample}.{library}.ReadsPerGene.out.tab"
+            for sample, library in SAMPLE_LIB
+        ],
 
 
 rule star_compress_unpaired_one:
