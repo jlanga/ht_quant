@@ -24,11 +24,10 @@ A Snakemake workflow for Transcriptome Quantification
 
 ## Features
 
-- FASTQ processing with [`fastp`](https://github.com/OpenGene/fastp)
-- Mapping with [`STAR`](https://github.com/alexdobin/STAR)
-- SAM/BAM/CRAM processing with [`samtools`](https://github.com/samtools/samtools) and [`picard`](https://github.com/broadinstitute/picard)
-- Reports with [`multiqc`](https://github.com/ewels/MultiQC) and
-    [`FastQC`](https://github.com/s-andrews/FastQC)
+- FASTQ processing with `fastp`
+- Mapping with `STAR`
+- SAM/BAM/CRAM processing with `samtools`
+- Reports with `multiqc` and `FastQC`
 
 ## DAG
 
@@ -36,4 +35,8 @@ A Snakemake workflow for Transcriptome Quantification
 
 ## References
 
-TBA
+- [`fastp`](https://github.com/OpenGene/fastp)
+- [`STAR`](https://github.com/alexdobin/STAR)
+- [`samtools`](https://github.com/samtools/samtools)
+- [`FastQC`](https://github.com/s-andrews/FastQC)
+- [`multiqc`](https://github.com/ewels/MultiQC)
