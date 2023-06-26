@@ -1,10 +1,10 @@
 # Results
-READS = Path("results/reads/")
-REFERENCE = Path("results/reference/")
-FASTP = Path("results/fastp/")
-RIBO = Path("results/ribodetector/")
-STAR = Path("results/star/")
+READS = Path("results/reads")
+REFERENCE = Path("results/reference")
+FASTP = Path("results/fastp")
+STAR = Path("results/star")
 
 # Reports
-REPORT_STEP = Path("reports/by_step")
-REPORT_LIBRARY = Path("reports/by_library")
+REPORT = Path("reports")
+REPORT_STEP = REPORT / "by_step"
+REPORT_LIBRARY = REPORT / "by_library"
