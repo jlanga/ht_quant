@@ -37,6 +37,8 @@ rule fastp_trim_one:
             --json {output.json} \
             --compression 1 \
             --verbose \
+            --trim_poly_g \
+            --trim_poly_x \
             --adapter_sequence {params.adapter_forward} \
             --adapter_sequence_r2 {params.adapter_reverse} \
             --thread {threads} \
