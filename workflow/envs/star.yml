@@ -1,3 +1,5 @@
+# splice alignment and quantification
+---
 channels:
   - conda-forge
   - bioconda

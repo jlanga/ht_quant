@@ -19,6 +19,7 @@ BAM_REPORTS = ["stats.tsv", "flagstats.txt", "idxstats.tsv"]
 
 
 include: "rules/folders.smk"
+include: "rules/fastqc.smk"
 include: "rules/reads_functions.smk"
 include: "rules/reads.smk"
 include: "rules/reference.smk"

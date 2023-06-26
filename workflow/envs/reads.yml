@@ -5,4 +5,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - fastqc=0.12.1
+  - coreutils=9.3
