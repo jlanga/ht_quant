@@ -13,8 +13,8 @@ rule star_index:
         REFERENCE / "index.log",
     threads: 24
     resources:
-        mem_gb=150,
-        time="08:00:00",
+        mem_mb=32 * 1024,
+        runtime=24 * 60,
     shell:
         """
         STAR \
