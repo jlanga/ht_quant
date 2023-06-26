@@ -1,4 +1,4 @@
-rule crai:
+rule samtools_index_cram:
     """Generate a cram index"""
     input:
         "{prefix}.cram",
