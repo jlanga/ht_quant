@@ -15,7 +15,7 @@
 #   - long_running_rule:runtime=1200
 default-resources:
     - runtime=60
-    - mem_mb=1024
+    - mem_gb=1
     - disk_mb=100000
 set-threads:
     - single_core_rule=1
