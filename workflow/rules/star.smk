@@ -167,3 +167,7 @@ rule star:
     """Run all the star rules"""
     input:
         rules.star_all.input,
+
+
+localrules:
+    star_create_count_table,
