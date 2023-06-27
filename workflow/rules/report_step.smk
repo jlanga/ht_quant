@@ -7,12 +7,12 @@ rule report_generate_config_file:
     conda:
         "../envs/report.yml"
     params:
-        chromosome1=features["sex_chromosomes"][0],
-        chromosome2=features["sex_chromosomes"][1],
+        chromosome_x=features["sex_chromosomes"][0],
+        chromosome_y=features["sex_chromosomes"][1],
     shell:
         """
-        echo "samtools_idxstats_xchr: {params.chromosome1}" >  {output} 2>  {log}
-        echo "samtools_idxstats_ychr: {params.chromosome2}" >> {output} 2>> {log}
+        echo "samtools_idxstats_xchr: {params.chromosome_x}" >  {output} 2>  {log}
+        echo "samtools_idxstats_ychr: {params.chromosome_y}" >> {output} 2>> {log}
         """
 
 
