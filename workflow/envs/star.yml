@@ -8,3 +8,5 @@ dependencies:
   - star=2.7.10a
   - pigz=2.3.4
   - samtools=1.17
+  - r-tidyverse=2.0.0
+  - r-argparse=2.2.2

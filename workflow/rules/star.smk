@@ -95,7 +95,7 @@ rule star_cram_one:
         "../envs/star.yml"
     threads: 24
     resources:
-        mem_mb=24 * 1024,
+        mem_mb=32 * 1024,
         runtime=24 * 60,
     shell:
         """
@@ -121,6 +121,26 @@ rule star_cram_all:
         ],
 
 
+rule star_create_count_table:
+    input:
+        rules.star_align_all.output,
+    output:
+        tsv=STAR / "counts.tsv",
+    log:
+        STAR / "counts.log",
+    conda:
+        "../envs/star.yml"
+    params:
+        folder=STAR,
+    shell:
+        """
+        Rscript workflow/scripts/join_star_table.R \
+            --input-folder {params.folder} \
+            --output-file {output.tsv} \
+        2> {log} 1>&2
+        """
+
+
 rule star_report_all:
     """Collect star reports"""
     input:
@@ -140,6 +160,7 @@ rule star_all:
     input:
         rules.star_cram_all.input,
         rules.star_report_all.input,
+        rules.star_create_count_table.output,
 
 
 rule star:
