@@ -16,6 +16,7 @@ rule report_library_one:
             FASTP / "{sample}.{library}_fastp.json",
         ],
         star=get_star_for_library_report,
+        config=REPORT / "config.yaml",
     output:
         REPORT_LIBRARY / "{sample}.{library}.html",
     log:
@@ -34,6 +35,7 @@ rule report_library_one:
             --outdir {params.out_dir} \
             --dirs \
             --dirs-depth 1 \
+            --config {input.config} \
             {input} \
         2> {log} 1>&2
         """
@@ -49,3 +51,9 @@ rule report_library:
     """Make all MultiQC reports per library"""
     input:
         rules.report_library_all.input,
+
+
+localrules:
+    report_library_one,
+    report_library_all,
+    report_library,

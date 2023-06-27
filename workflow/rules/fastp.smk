@@ -20,7 +20,7 @@ rule fastp_trim_one:
         extra=params["fastp"]["extra"],
     threads: 24
     resources:
-        mem_mb=1024,
+        mem_mb=4 * 1024,
         runtime=24 * 60,
     conda:
         "../envs/fastp.yml"
@@ -37,6 +37,8 @@ rule fastp_trim_one:
             --json {output.json} \
             --compression 1 \
             --verbose \
+            --trim_poly_g \
+            --trim_poly_x \
             --adapter_sequence {params.adapter_forward} \
             --adapter_sequence_r2 {params.adapter_reverse} \
             --thread {threads} \
@@ -53,21 +55,6 @@ rule fastp_trim_all:
             for sample, library in SAMPLE_LIB
             for end in "1 2 u1 u2".split(" ")
         ],
-
-
-rule fastp_fastqc_one:
-    """Run fastqc on one library"""
-    input:
-        fastq=FASTP / "{sample}.{library}_{end}.fq.gz",
-    output:
-        html=FASTP / "{sample}.{library}_{end}_fastqc.html",
-        zip_=FASTP / "{sample}.{library}_{end}_fastqc.zip",
-    log:
-        FASTP / "{sample}.{library}_{end}_fastqc.log",
-    conda:
-        "../envs/fastp.yml"
-    shell:
-        "fastqc --quiet {input} 2> {log} 1>&2"
 
 
 rule fastp_report_all:
