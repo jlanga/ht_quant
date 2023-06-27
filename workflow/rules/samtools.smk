@@ -17,6 +17,7 @@ rule samtools_stats_cram:
     input:
         cram="{prefix}.cram",
         crai="{prefix}.cram.crai",
+        reference=REFERENCE / "genome.fa",
     output:
         tsv="{prefix}.stats.tsv",
     log:
@@ -24,7 +25,7 @@ rule samtools_stats_cram:
     conda:
         "../envs/samtools.yml"
     shell:
-        "samtools stats {input.cram} > {output.tsv} 2> {log}"
+        "samtools stats --reference {input.cram} > {output.tsv} 2> {log}"
 
 
 rule samtools_flagstats_cram:
