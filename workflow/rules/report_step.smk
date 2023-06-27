@@ -1,4 +1,5 @@
 rule report_generate_config_file:
+    """Generate the config file for multiqc"""
     output:
         REPORT / "config.yaml",
     log:

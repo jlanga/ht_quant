@@ -122,6 +122,7 @@ rule star_cram_all:
 
 
 rule star_create_count_table:
+    """Join individual count tables into one"""
     input:
         rules.star_align_all.input,
     output:

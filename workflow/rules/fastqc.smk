@@ -1,11 +1,12 @@
 rule fastqc_one:
+    """Run fastqc over one read file"""
     input:
-        fastq=READS / "{sample}.{library}_{end}.fq.gz",
+        fastq="{prefix}.fq.gz",
     output:
-        html=READS / "{sample}.{library}_{end}_fastqc.html",
-        zip_=READS / "{sample}.{library}_{end}_fastqc.zip",
+        html="{prefix}_fastqc.html",
+        zip_="{prefix}_fastqc.zip",
     log:
-        READS / "{sample}.{library}_{end}_fastqc.log",
+        "{prefix}_fastqc.log",
     conda:
         "../envs/fastqc.yml"
     shell:
