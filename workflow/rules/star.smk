@@ -123,7 +123,7 @@ rule star_cram_all:
 
 rule star_create_count_table:
     input:
-        rules.star_align_all.output,
+        rules.star_align_all.input,
     output:
         tsv=STAR / "counts.tsv",
     log:
