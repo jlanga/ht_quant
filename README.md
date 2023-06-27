@@ -1,7 +1,7 @@
 # Snakemake workflow: `Bioinfo_Macro_Host_Transcriptomics`
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥6.3.0-brightgreen.svg)](https://snakemake.github.io)
-[![GitHub actions status](https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics/workflows/Tests/badge.svg?branch=main)](https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics/actions?query=branch%3Amain+workflow%3ATests)
+[![GitHub actions status](https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics/workflows/Tests/badge.svg?branch=devel)](https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics/actions?query=branch%3Adevel+workflow%3ATests)
 
 
 A Snakemake workflow for Transcriptome Quantification
