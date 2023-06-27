@@ -39,8 +39,6 @@ rule star_align_one:
             STAR
             / "{sample}.{library}/{sample}.{library}.Aligned.sortedByCoord.out.bam"
         ),
-        u1=temp(STAR / "{sample}.{library}/{sample}.{library}.Unmapped.out.mate1"),
-        u2=temp(STAR / "{sample}.{library}/{sample}.{library}.Unmapped.out.mate2"),
         counts=STAR / "{sample}.{library}/{sample}.{library}.ReadsPerGene.out.tab",
         out=STAR / "{sample}.{library}/{sample}.{library}.Log.final.out",
     log:
@@ -64,7 +62,7 @@ rule star_align_one:
             --readFilesIn {input.r1} {input.r2} \
             --outFileNamePrefix {params.out_prefix} \
             --outSAMtype BAM SortedByCoordinate \
-            --outReadsUnmapped Fastx \
+            --outSAMunmapped Within KeepPairs \
             --readFilesCommand "gzip -cd" \
             --quantMode GeneCounts \
         2>> {log} 1>&2
@@ -80,48 +78,14 @@ rule star_align_all:
         ],
 
 
-rule star_import_unmapped_one:
+rule star_cram_one:
+    """Convert to cram one library
+
+    Note: we use samtools sort when it is already sorted because there is no
+    other way to use minimizers on the unmapped fraction.
+    """
     input:
-        u1=STAR / "{sample}.{library}/{sample}.{library}.Unmapped.out.mate1",
-        u2=STAR / "{sample}.{library}/{sample}.{library}.Unmapped.out.mate2",
-    output:
-        bam=temp(STAR / "{sample}.{library}/{sample}.{library}.unmapped.bam"),
-    log:
-        STAR / "{sample}.{library}/{sample}.{library}.import.log",
-    conda:
-        "../envs/star.yml"
-    threads: 1
-    params:
-        rg_string="{sample}.{library}",
-    resources:
-        mem_mb=4 * 1024,
-        runtime=24 * 60,
-    shell:
-        """
-        samtools import \
-            -1 {input.u1} \
-            -2 {input.u2} \
-            -R {params.rg_string} \
-            -u \
-            -o {output.bam} \
-        2> {log} 1>&2
-        """
-
-
-rule start_import_unmapped_all:
-    input:
-        [
-            STAR / f"{sample}.{library}/{sample}.{library}.unmapped.bam"
-            for sample, library in SAMPLE_LIB
-        ],
-
-
-rule star_join_cram_one:
-    """Join mapped and unmapped into one cram file"""
-    input:
-        mapped_bam=STAR
-        / "{sample}.{library}/{sample}.{library}.Aligned.sortedByCoord.out.bam",
-        unmapped_bam=STAR / "{sample}.{library}/{sample}.{library}.unmapped.bam",
+        bam=STAR / "{sample}.{library}/{sample}.{library}.Aligned.sortedByCoord.out.bam",
         reference=REFERENCE / "genome.fa",
     output:
         cram=protected(STAR / "{sample}.{library}/{sample}.{library}.cram"),
@@ -131,16 +95,11 @@ rule star_join_cram_one:
         "../envs/star.yml"
     threads: 24
     resources:
-        mem_mb=24 * 2048,
+        mem_mb=24 * 1024,
         runtime=24 * 60,
     shell:
         """
-        (samtools merge \
-            -u \
-            -o /dev/stdout \
-            {input.mapped_bam} \
-            {input.unmapped_bam} \
-        | samtools sort \
+        samtools sort \
             -l 9 \
             -m 1G \
             -o {output.cram} \
@@ -148,7 +107,8 @@ rule star_join_cram_one:
             --reference {input.reference} \
             -@ {threads} \
             -M \
-        ) 2> {log} 1>&2
+            {input.bam} \
+        2> {log} 1>&2
         """
 
 
