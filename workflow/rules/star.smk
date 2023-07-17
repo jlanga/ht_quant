@@ -13,7 +13,7 @@ rule star_index:
         REFERENCE / "index.log",
     threads: 24
     resources:
-        mem_gb=32,
+        mem_mb=32 * 1024,
         runtime=24 * 60,
     shell:
         """
@@ -49,7 +49,7 @@ rule star_align_one:
         "../envs/star.yml"
     threads: 24
     resources:
-        mem_gb=32,
+        mem_mb=32 * 1024,
         runtime=24 * 60,
     shell:
         """
@@ -95,7 +95,7 @@ rule star_cram_one:
         "../envs/star.yml"
     threads: 24
     resources:
-        mem_gb=32,
+        mem_mb=32 * 1024,
         runtime=24 * 60,
     shell:
         """
