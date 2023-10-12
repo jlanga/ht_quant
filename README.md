@@ -9,7 +9,7 @@
 ## Usage
   ```
   #Clone the git repository in your terminal
-  git clone git@github.com:3d-omics/Bioinfo_Macro_Host_Transcriptomics.git
+  git clone https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics.git
   #Change directory to the one you cloned in the previous step
   cd Bioinfo_Macro_Host_Transcriptomics
   #Activate conda environment where you have snakemake
