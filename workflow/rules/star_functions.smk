@@ -1,5 +1,5 @@
 def get_star_out_prefix(wildcards):
     """Get the prefix for STAR output files."""
-    sample = wildcards.sample
-    library = wildcards.library
-    return STAR / f"{sample}.{library}/{sample}.{library}."
+    sample_id = wildcards.sample_id
+    library_id = wildcards.library_id
+    return STAR / f"{sample_id}.{library_id}/{sample_id}.{library_id}."

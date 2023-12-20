@@ -31,18 +31,19 @@ rule star_index:
 rule star_align_one:
     """Align one library with STAR"""
     input:
-        r1=FASTP / "{sample}.{library}_1.fq.gz",
-        r2=FASTP / "{sample}.{library}_2.fq.gz",
+        r1=FASTP / "{sample_id}.{library_id}_1.fq.gz",
+        r2=FASTP / "{sample_id}.{library_id}_2.fq.gz",
         index=STAR / "index",
     output:
         bam=temp(
             STAR
-            / "{sample}.{library}/{sample}.{library}.Aligned.sortedByCoord.out.bam"
+            / "{sample_id}.{library_id}/{sample_id}.{library_id}.Aligned.sortedByCoord.out.bam"
         ),
-        counts=STAR / "{sample}.{library}/{sample}.{library}.ReadsPerGene.out.tab",
-        out=STAR / "{sample}.{library}/{sample}.{library}.Log.final.out",
+        counts=STAR
+        / "{sample_id}.{library_id}/{sample_id}.{library_id}.ReadsPerGene.out.tab",
+        out=STAR / "{sample_id}.{library_id}/{sample_id}.{library_id}.Log.final.out",
     log:
-        STAR / "{sample}.{library}/{sample}.{library}.log",
+        STAR / "{sample_id}.{library_id}/{sample_id}.{library_id}.log",
     params:
         out_prefix=get_star_out_prefix,
     conda:
@@ -73,8 +74,9 @@ rule star_align_all:
     """Align all libraries with STAR"""
     input:
         [
-            STAR / f"{sample}.{library}/{sample}.{library}.ReadsPerGene.out.tab"
-            for sample, library in SAMPLE_LIB
+            STAR
+            / f"{sample_id}.{library_id}/{sample_id}.{library_id}.ReadsPerGene.out.tab"
+            for sample_id, library_id in SAMPLE_LIB
         ],
 
 
@@ -85,12 +87,13 @@ rule star_cram_one:
     other way to use minimizers on the unmapped fraction.
     """
     input:
-        bam=STAR / "{sample}.{library}/{sample}.{library}.Aligned.sortedByCoord.out.bam",
+        bam=STAR
+        / "{sample_id}.{library_id}/{sample_id}.{library_id}.Aligned.sortedByCoord.out.bam",
         reference=REFERENCE / "genome.fa",
     output:
-        cram=protected(STAR / "{sample}.{library}/{sample}.{library}.cram"),
+        cram=protected(STAR / "{sample_id}.{library_id}/{sample_id}.{library_id}.cram"),
     log:
-        STAR / "{sample}.{library}/{sample}.{library}.cram.log",
+        STAR / "{sample_id}.{library_id}/{sample_id}.{library_id}.cram.log",
     conda:
         "../envs/star.yml"
     threads: 24
@@ -116,8 +119,8 @@ rule star_cram_all:
     """Convert to cram all the libraries"""
     input:
         [
-            STAR / f"{sample}.{library}/{sample}.{library}.cram"
-            for sample, library in SAMPLE_LIB
+            STAR / f"{sample_id}.{library_id}/{sample_id}.{library_id}.cram"
+            for sample_id, library_id in SAMPLE_LIB
         ],
 
 
@@ -146,12 +149,12 @@ rule star_report_all:
     """Collect star reports"""
     input:
         [
-            STAR / f"{sample}.{library}/{sample}.{library}.Log.final.out"
-            for sample, library in SAMPLE_LIB
+            STAR / f"{sample_id}.{library_id}/{sample_id}.{library_id}.Log.final.out"
+            for sample_id, library_id in SAMPLE_LIB
         ],
         [
-            STAR / f"{sample}.{library}/{sample}.{library}.{extension}"
-            for sample, library in SAMPLE_LIB
+            STAR / f"{sample_id}.{library_id}/{sample_id}.{library_id}.{extension}"
+            for sample_id, library_id in SAMPLE_LIB
             for extension in BAM_REPORTS
         ],
 
