@@ -1,0 +1,33 @@
+digraph ht_quant {
+    // newrank=true;
+    rankdir=LR;
+    graph[bgcolor=white, margin=0, compount=true];
+    node[shape=box, style=rounded, fontname=sans, fontsize=10, penwidth=2];
+    edge[penwidth=2, color=grey];
+
+    subgraph cluster_0 {
+        label = "Input";
+        shape=box; style=rounded; fontname=sans; fontsize=10; penwidth=2; margin=10;
+        reads      [label = "FASTQ\nreads", color = "0.59 0.6 0.85", style="rounded"];
+        host_fasta [label = "Host\nFasta", color = "0.07 0.6 0.85", style="rounded"];
+	    host_gtf   [label = "Host\nGTF", color = "0.15 0.6 0.85", style="rounded"];
+    }
+
+    subgraph cluster_1 {
+        label = "Preprocess";
+        shape=box; style=rounded; fontname=sans; fontsize=10; penwidth=2; margin=10;
+        fastp        [label = "fastp", color = "0.64 0.6 0.85", style="rounded"];
+    }
+
+    subgraph cluster_2 {
+        label = "Quantify";
+        shape=box; style=rounded; fontname=sans; fontsize=10; penwidth=2; margin=10;
+        star [label = "STAR\nMAGs", color = "0.02 0.6 0.85", style="rounded"];
+    }
+
+    reads -> fastp
+    host_fasta -> star
+    host_gtf -> star
+    fastp -> star
+
+}
