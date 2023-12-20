@@ -7,7 +7,7 @@ rule samtools_index_cram:
     log:
         "{prefix}.cram.crai.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "samtools index {input} 2> {log} 1>&2"
 
@@ -23,7 +23,7 @@ rule samtools_stats_cram:
     log:
         "{prefix}.stats.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         """
         samtools stats \
@@ -43,7 +43,7 @@ rule samtools_flagstats_cram:
     log:
         "{prefix}.flagstats.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "samtools flagstats {input.cram} > {output.txt} 2> {log}"
 
@@ -58,6 +58,6 @@ rule samtools_idxstats_cram:
     log:
         "{prefix}.idxstats.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "samtools idxstats {input.cram} > {output.tsv} 2> {log}"

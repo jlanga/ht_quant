@@ -9,7 +9,7 @@ rule reads_link_one:
     log:
         READS / "{sample_id}.{library_id}.log",
     conda:
-        "../envs/reads.yml"
+        "__environment__.yml"
     shell:
         """
         ln --symbolic $(readlink --canonicalize {input.forward_}) {output.forward_}
@@ -43,7 +43,3 @@ rule reads:
     input:
         rules.reads_link_all.input,
         rules.reads_fastqc_all.input,
-
-
-localrules:
-    reads_link_one,

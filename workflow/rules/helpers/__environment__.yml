@@ -1,8 +1,9 @@
-# bam / cram wrangling
+# environment to deal with fastqc reports
 ---
 channels:
   - conda-forge
   - bioconda
-  - nodefaults
+  - defaults
 dependencies:
+  - fastqc=0.12.1
   - samtools=1.17

@@ -8,7 +8,7 @@ rule star_index:
     params:
         sjdbOverhang=params["star"]["index"]["sjdbOverhang"],
     conda:
-        "../envs/star.yml"
+        "__environment__.yml"
     log:
         REFERENCE / "index.log",
     threads: 24
@@ -47,7 +47,7 @@ rule star_align_one:
     params:
         out_prefix=get_star_out_prefix,
     conda:
-        "../envs/star.yml"
+        "__environment__.yml"
     threads: 24
     resources:
         mem_mb=32 * 1024,
@@ -95,7 +95,7 @@ rule star_cram_one:
     log:
         STAR / "{sample_id}.{library_id}/{sample_id}.{library_id}.cram.log",
     conda:
-        "../envs/star.yml"
+        "__environment__.yml"
     threads: 24
     resources:
         mem_mb=32 * 1024,
@@ -133,7 +133,7 @@ rule star_create_count_table:
     log:
         STAR / "counts.log",
     conda:
-        "../envs/star.yml"
+        "__environment__.yml"
     params:
         folder=STAR,
     shell:

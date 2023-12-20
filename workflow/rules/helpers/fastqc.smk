@@ -8,6 +8,6 @@ rule fastqc_one:
     log:
         "{prefix}_fastqc.log",
     conda:
-        "../envs/fastqc.yml"
+        "__environment__.yml"
     shell:
         "fastqc --quiet {input} 2> {log} 1>&2"
