@@ -1,4 +1,4 @@
-rule report_generate_config_file:
+rule report__step__generate_config_file:
     """Generate the config file for multiqc"""
     output:
         REPORT / "config.yaml",
@@ -16,10 +16,10 @@ rule report_generate_config_file:
         """
 
 
-rule report_step_reads:
+rule report__step__reads:
     """Collect all reports for the reads step"""
     input:
-        files=rules.reads_fastqc_all.input,
+        files=rules.reads__fastqc.input,
         config=REPORT / "config.yaml",
     output:
         html=REPORT_STEP / "reads.html",
@@ -37,15 +37,16 @@ rule report_step_reads:
             --force \
             --outdir {params.dir} \
             --config {input.config} \
-            {input} \
+            {input.files} \
         2> {log} 1>&2
         """
 
 
-rule report_step_fastp:
+rule report__step__preprocess:
     """Collect all reports for the fastp step"""
     input:
-        rules.fastp_report_all.input,
+        rules.preprocess__fastp__report.input,
+        rules.preprocess__fastp__fastqc.input,
         config=REPORT / "config.yaml",
     output:
         html=REPORT_STEP / "fastp.html",
@@ -68,10 +69,10 @@ rule report_step_fastp:
         """
 
 
-rule report_step_star:
+rule report__step__quantify:
     """Collect all reports for the star step"""
     input:
-        rules.star_report_all.input,
+        rules.quantify__star__report.input,
         config=REPORT / "config.yaml",
     output:
         html=REPORT_STEP / "star.html",
@@ -94,17 +95,9 @@ rule report_step_star:
         """
 
 
-rule report_step:
+rule report__step:
     """Collect all per step reports for the pipeline"""
     input:
-        rules.report_step_reads.output,
-        rules.report_step_fastp.output,
-        rules.report_step_star.output,
-
-
-localrules:
-    report_generate_config_file,
-    report_step_reads,
-    report_step_fastp,
-    report_step_star,
-    report_step,
+        rules.report__step__reads.output,
+        rules.report__step__preprocess.output,
+        rules.report__step__quantify.output,

@@ -1,4 +1,4 @@
-rule fastp_trim_one:
+rule __preprocess__fastp__trim:
     """Run fastp on one library"""
     input:
         forward_=READS / "{sample_id}.{library_id}_1.fq.gz",
@@ -8,7 +8,7 @@ rule fastp_trim_one:
         reverse_=temp(FASTP / "{sample_id}.{library_id}_2.fq.gz"),
         unpaired1=temp(FASTP / "{sample_id}.{library_id}_u1.fq.gz"),
         unpaired2=temp(FASTP / "{sample_id}.{library_id}_u2.fq.gz"),
-        html=FASTP / "{sample_id}.{library_id}.html",
+        html=FASTP / "{sample_id}.{library_id}_fastp.html",
         json=FASTP / "{sample_id}.{library_id}_fastp.json",
     log:
         FASTP / "{sample_id}.{library_id}.log",
@@ -47,32 +47,39 @@ rule fastp_trim_one:
         """
 
 
-rule fastp_trim_all:
+rule preprocess__fastp__trim:
     """Run fastp over all libraries"""
     input:
         [
             FASTP / f"{sample_id}.{library_id}_{end}.fq.gz"
-            for sample_id, library_id in SAMPLE_LIB
+            for sample_id, library_id in SAMPLE_LIBRARY
             for end in "1 2 u1 u2".split(" ")
         ],
 
 
-rule fastp_report_all:
-    """Collect fastp reports"""
+rule preprocess__fastp__fastqc:
+    """Run fastqc over all libraries"""
+    input:
+        [
+            FASTP / f"{sample_id}.{library_id}_{end}_fastqc.{extension}"
+            for sample_id, library_id in SAMPLE_LIBRARY
+            for end in ["1", "2"]
+            for extension in ["html", "zip"]
+        ],
+
+
+rule preprocess__fastp__report:
+    """Collect fastp and fastqc reports"""
     input:
         [
             FASTP / f"{sample_id}.{library_id}_fastp.json"
-            for sample_id, library_id in SAMPLE_LIB
+            for sample_id, library_id in SAMPLE_LIBRARY
         ],
-        [
-            FASTP / f"{sample_id}.{library_id}_{end}_fastqc.zip"
-            for sample_id, library_id in SAMPLE_LIB
-            for end in "1 2".split(" ")
-        ],
+        rules.preprocess__fastp__fastqc.input,
 
 
-rule fastp:
+rule preprocess__fastp:
     """Run fastp and collect reports"""
     input:
-        rules.fastp_trim_all.input,
-        rules.fastp_report_all.input,
+        rules.preprocess__fastp__trim.input,
+        rules.preprocess__fastp__report.input,

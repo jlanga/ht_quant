@@ -1,10 +1,10 @@
-rule star_index:
+rule _quantify__star__index:
     """Build STAR index of the reference genome"""
     input:
         dna=REFERENCE / "genome.fa",
         gtf=REFERENCE / "annotation.gtf",
     output:
-        folder=directory("results/star/index"),
+        folder=directory(INDEX),
     params:
         sjdbOverhang=params["star"]["index"]["sjdbOverhang"],
     conda:
@@ -28,12 +28,12 @@ rule star_index:
         """
 
 
-rule star_align_one:
+rule _quantify__star__align:
     """Align one library with STAR"""
     input:
         r1=FASTP / "{sample_id}.{library_id}_1.fq.gz",
         r2=FASTP / "{sample_id}.{library_id}_2.fq.gz",
-        index=STAR / "index",
+        index=INDEX,
     output:
         bam=temp(
             STAR
@@ -70,17 +70,17 @@ rule star_align_one:
         """
 
 
-rule star_align_all:
+rule quantify__star__align:
     """Align all libraries with STAR"""
     input:
         [
             STAR
             / f"{sample_id}.{library_id}/{sample_id}.{library_id}.ReadsPerGene.out.tab"
-            for sample_id, library_id in SAMPLE_LIB
+            for sample_id, library_id in SAMPLE_LIBRARY
         ],
 
 
-rule star_cram_one:
+rule _quantify__star__bam_to_cram:
     """Convert to cram one library
 
     Note: we use samtools sort when it is already sorted because there is no
@@ -115,19 +115,19 @@ rule star_cram_one:
         """
 
 
-rule star_cram_all:
+rule quantify__star__bam_to_cram:
     """Convert to cram all the libraries"""
     input:
         [
             STAR / f"{sample_id}.{library_id}/{sample_id}.{library_id}.cram"
-            for sample_id, library_id in SAMPLE_LIB
+            for sample_id, library_id in SAMPLE_LIBRARY
         ],
 
 
-rule star_create_count_table:
+rule _quantify__star__aggregate_counts:
     """Join individual count tables into one"""
     input:
-        rules.star_align_all.input,
+        rules.quantify__star__align.input,
     output:
         tsv=STAR / "counts.tsv",
     log:
@@ -145,33 +145,22 @@ rule star_create_count_table:
         """
 
 
-rule star_report_all:
-    """Collect star reports"""
+rule quantify__star__report:
+    """Get all reports for star"""
     input:
-        [
+        logs=[
             STAR / f"{sample_id}.{library_id}/{sample_id}.{library_id}.Log.final.out"
-            for sample_id, library_id in SAMPLE_LIB
+            for sample_id, library_id in SAMPLE_LIBRARY
+        ]
+        + [
+            STAR / f"{sample_id}.{library_id}/{sample_id}.{library_id}.{report}"
+            for report in BAM_REPORTS
+            for sample_id, library_id in SAMPLE_LIBRARY
         ],
-        [
-            STAR / f"{sample_id}.{library_id}/{sample_id}.{library_id}.{extension}"
-            for sample_id, library_id in SAMPLE_LIB
-            for extension in BAM_REPORTS
-        ],
 
 
-rule star_all:
-    """Run all the star rules for all the libraries"""
-    input:
-        rules.star_cram_all.input,
-        rules.star_report_all.input,
-        rules.star_create_count_table.output,
-
-
-rule star:
+rule quantify__star:
     """Run all the star rules"""
     input:
-        rules.star_all.input,
-
-
-localrules:
-    star_create_count_table,
+        rules.quantify__star__bam_to_cram.input,
+        rules._quantify__star__aggregate_counts.output,

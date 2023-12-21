@@ -1,4 +1,4 @@
-rule report_library_one:
+rule _report__library__multiqc_library:
     """Make a MultiQC report for a single library
 
     The --dirs option is used to tell MultiQC to append the folder names to
@@ -41,22 +41,10 @@ rule report_library_one:
         """
 
 
-rule report_library_all:
+rule report__library:
     """Make a MultiQC report for every library"""
     input:
         [
             REPORT_LIBRARY / f"{sample_id}.{library_id}.html"
-            for sample_id, library_id in SAMPLE_LIB
+            for sample_id, library_id in SAMPLE_LIBRARY
         ],
-
-
-rule report_library:
-    """Make all MultiQC reports per library"""
-    input:
-        rules.report_library_all.input,
-
-
-localrules:
-    report_library_one,
-    report_library_all,
-    report_library,
