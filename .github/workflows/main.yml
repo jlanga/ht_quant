@@ -44,10 +44,11 @@ jobs:
           directory: .
           snakefile: workflow/Snakefile
           args: >
-            --conda-create-envs-only
-            --conda-frontend mamba
-            --cores 3
             --use-conda
+            --conda-frontend mamba
+            --conda-create-envs-only
+            --cores 3
+
 
       - name: Clean conda cache
         run: conda clean --all --yes
