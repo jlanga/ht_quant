@@ -85,7 +85,7 @@ rule _quantify__star__bam_to_cram:
         bam=STAR / "{sample_id}.{library_id}.Aligned.sortedByCoord.out.bam",
         reference=REFERENCE / "genome.fa",
     output:
-        cram=protected(STAR / "{sample_id}.{library_id}.cram"),
+        cram=STAR / "{sample_id}.{library_id}.cram",
     log:
         STAR / "{sample_id}.{library_id}.cram.log",
     conda:
