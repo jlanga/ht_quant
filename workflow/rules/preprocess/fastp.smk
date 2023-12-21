@@ -17,7 +17,7 @@ rule __preprocess__fastp__trim:
     params:
         adapter_forward=get_forward_adapter,
         adapter_reverse=get_reverse_adapter,
-    threads: 24  # Doesn't work above 16
+    threads: 24
     resources:
         mem_mb=4 * 1024,
         runtime=1 * 60,
@@ -28,10 +28,10 @@ rule __preprocess__fastp__trim:
         fastp \
             --in1 {input.forward_} \
             --in2 {input.reverse_} \
-            --out1 {output.forward_} \
-            --out2 {output.reverse_} \
-            --unpaired1 {output.unpaired1} \
-            --unpaired2 {output.unpaired2} \
+            --out1 >(pigz --fast > {output.forward_}) \
+            --out2 >(pigz --fast > {output.reverse_}) \
+            --unpaired1 >(pigz --fast > {output.unpaired1}) \
+            --unpaired2 >(pigz --fast > {output.unpaired2}) \
             --html {output.html} \
             --json {output.json} \
             --compression 1 \
