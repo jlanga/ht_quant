@@ -1,0 +1,8 @@
+# reference file wrangling
+---
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - pigz=2.8

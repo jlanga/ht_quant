@@ -1,0 +1,9 @@
+# environment to deal with fastqc reports
+---
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - fastqc=0.12.1
+  - samtools=1.19

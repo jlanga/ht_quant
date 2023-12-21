@@ -33,28 +33,70 @@ jobs:
       - name: Cache
         uses: actions/cache@v3
         with:
-          path: .snakemake/conda
+          path: |
+            .snakemake/conda
+            ~/.cache/pre-commit/
           key: snakemake-conda
 
       - name: Download environments
-        uses: snakemake/snakemake-github-action@v1.24.0
+        uses: snakemake/snakemake-github-action@v1.25.1
         with:
           directory: .
           snakefile: workflow/Snakefile
-          args: >
-            --use-conda
-            --conda-create-envs-only
-            --conda-frontend mamba
-            --cores 1
+          args: --use-conda --conda-frontend mamba --conda-create-envs-only --cores 3
 
-      - name: Test workflow
-        uses: snakemake/snakemake-github-action@v1.24.0
+
+      - name: Clean conda cache
+        run: conda clean --all --yes
+
+      - name: Preprocess
+        uses: snakemake/snakemake-github-action@v1.25.1
         with:
           directory: .
           snakefile: workflow/Snakefile
           args: >
-            --use-conda
-            --show-failed-logs
+            preprocess
+            --conda-frontend mamba
             --cores 3
-            --conda-cleanup-pkgs cache
-            --all-temp
+            --latency-wait 5
+            --show-failed-logs
+            --use-conda
+
+
+      - name: Quantify
+        uses: snakemake/snakemake-github-action@v1.25.1
+        with:
+          directory: .
+          snakefile: workflow/Snakefile
+          args: >
+            quantify
+            --conda-frontend mamba
+            --cores 3
+            --latency-wait 5
+            --show-failed-logs
+            --use-conda
+
+
+      - name: Report
+        uses: snakemake/snakemake-github-action@v1.25.1
+        with:
+          directory: .
+          snakefile: workflow/Snakefile
+          args: >
+            report
+            --conda-frontend mamba
+            --cores 3
+            --latency-wait 5
+            --show-failed-logs
+            --use-conda
+
+      - name: Delete everything
+        run: |
+          sudo find results -not -name "*.log" -type f -delete -print
+
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: results
+          path: |
+            results/**/*.log

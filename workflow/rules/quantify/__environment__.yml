@@ -1,0 +1,12 @@
+# splice alignment and quantification
+---
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - pigz=2.8
+  - r-argparse=2.2.2
+  - r-tidyverse=2.0.0
+  - samtools=1.19
+  - star=2.7.11a
