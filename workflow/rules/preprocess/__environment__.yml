@@ -6,4 +6,4 @@ channels:
   - defaults
 dependencies:
   - fastp=0.23.4
-  - pigz=2.6
+  - pigz=2.8

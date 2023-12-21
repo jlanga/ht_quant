@@ -6,4 +6,4 @@ channels:
   - defaults
 dependencies:
   - fastqc=0.12.1
-  - samtools=1.17
+  - samtools=1.19

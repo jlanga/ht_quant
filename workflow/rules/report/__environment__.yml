@@ -5,5 +5,4 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - multiqc=1.14
-  - python<3.11
+  - multiqc=1.19

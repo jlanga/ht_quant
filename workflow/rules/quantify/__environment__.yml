@@ -5,8 +5,8 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - star=2.7.10a
-  - pigz=2.3.4
-  - samtools=1.17
-  - r-tidyverse=2.0.0
+  - pigz=2.8
   - r-argparse=2.2.2
+  - r-tidyverse=2.0.0
+  - samtools=1.19
+  - star=2.7.11a
