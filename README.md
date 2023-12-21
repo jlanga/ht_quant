@@ -1,52 +1,78 @@
-# Snakemake workflow: `Bioinfo_Macro_Host_Transcriptomics`
-
 [![Snakemake](https://img.shields.io/badge/snakemake-≥6.3.0-brightgreen.svg)](https://snakemake.github.io)
-[![GitHub actions status](https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics/workflows/Tests/badge.svg?branch=devel)](https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics/actions?query=branch%3Adevel+workflow%3ATests)
+[![GitHub actions status](https://github.com/3d-omics/ht_quant/workflows/Tests/badge.svg?branch=devel)](https://github.com/3d-omics/ht_quant/actions?query=branch%3Adevel+workflow%3ATests)
 
+# Snakemake workflow: `ht_quant`
 
-##Set up required softwares
+A Snakemake workflow for Host Transcriptome Quantification
+
 
 ## Usage
-  ```
-  #Clone the git repository in your terminal
-  git clone https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics.git
-  #Change directory to the one you cloned in the previous step
-  cd Bioinfo_Macro_Host_Transcriptomics
-  #Activate conda environment where you have snakemake
-  conda activte Snakemake
-  #run the pipeline with the test data, it will download all the necesary software through conda. It should take less than 5 minutes.
-  snakemake --use-conda --jobs 8 all
-  ```
 
-- Run it with your own data:
-  - Edit `config/samples.tsv` and add your samples and where are they located. Here is an example of the tsv table filled with the information
+1. Make sure you have `conda`, `mamba` and `snakemake` installed.
+    ```bash
+    conda --version
+    snakemake --version
+    mamba --version
+    ```
 
-    ![image](https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics/assets/103645443/bcf67745-9119-498d-a33d-1339ee864246)
+2. Clone the git repository in your terminal and get in:
+    ```bash
+    git clone git@github.com:3d-omics/ht_quant.git  # or use https
+    cd ht_quant
+    ```
 
-  - Edit `config/features.yml` with information regarding the reference you are
-    using like in this example.
+3. Test your installation by running the test data. It will download all the necesary software through conda / mamba. It should take less than 5 minutes.
+    ```bash
+    ./run
+    ```
 
-    ![image](https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics/assets/103645443/195f50ea-eb61-47dd-a650-f91402eca2e3)
+4. Run it with your own data:
 
-  - Edit `config/params.yml` to change the execution of the steps like in this example
+   1. Edit `config/samples.tsv` and add your samples names, a library identifier to differentiate them, where are they located, the adapters used, and the coassemblies each sample will belong to. If no adapters are specified, they are asumed to be the current Nextera ones: `AGATCGGAAGAGCACACGTCTGAACTCCAGTCA` and `AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT` for forward and reverse, respectively.
 
-    ![image](https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics/assets/103645443/af630e31-c113-4ee6-9408-50870ee54be5)
+    ```tsv
+    sample_id	library_id	forward_filename	reverse_filename	forward_adapter	reverse_adapter
+    sample1	lib1	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz
+    sample2	lib1	resources/reads/sample2_1.fq.gz	resources/reads/sample2_2.fq.gz
+    ```
+
+    2. Edit `config/features.yml` with reference information:
+
+    ```yaml
+    dna: resources/reference/chrX_sub.fa.gz
+    gtf: resources/reference/chrX_sub.gtf.gz
+
+    sex_chromosomes: [X, Y]
+    ```
+
+    3. Edit `config/params.yml` with execution parameters. The defaults are reasonable.
+
+
+
+5. Run the pipeline
+     ```
+     snakemake --use-conda --jobs 8 all
+     #(slurm users), there is a script called run_slurm in the cloned directory that you can directly use to launch the pipeline on a slurm cluster, you can modify the parameters or direclty execute it as it is
+     ./run_slurm
+     ```
+
+
+## Rulegraph
+
+![rulegraph_simple](rulegraph_simple.svg)
+
 
 ## Features
-- FASTQ processing with `fastp`
-- Mapping with `STAR`
-- SAM/BAM/CRAM processing with `samtools`
-- Reports with `multiqc` and `FastQC`
--
-## DAG
-
-![image](https://github.com/3d-omics/Bioinfo_Macro_Host_Transcriptomics/assets/103645443/37f829dd-17e3-4b63-bb42-235714c31520)
+- FASTQ processing with `fastp`.
+- mapping of preprocessed RNA reads against the host with `STAR`.
+- Reporting with `fastqc`, `samtools`, `fastp` and aggregated with `multiqc`
+- Count table aggregated with `R` and `tidyverse`
 
 
 ## References
 
 - [`fastp`](https://github.com/OpenGene/fastp)
-- [`STAR`](https://github.com/alexdobin/STAR)
 - [`samtools`](https://github.com/samtools/samtools)
+- [`star`](https://github.com/alexdobin/STAR)
 - [`FastQC`](https://github.com/s-andrews/FastQC)
 - [`multiqc`](https://github.com/ewels/MultiQC)
