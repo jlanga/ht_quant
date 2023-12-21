@@ -6,7 +6,7 @@ rule _quantify__star__index:
     output:
         folder=directory(INDEX),
     params:
-        sjdbOverhang=params["star"]["index"]["sjdbOverhang"],
+        sjdbOverhang=params["quantify"]["star"]["index"]["sjdbOverhang"],
     conda:
         "__environment__.yml"
     log:
@@ -35,15 +35,11 @@ rule _quantify__star__align:
         r2=FASTP / "{sample_id}.{library_id}_2.fq.gz",
         index=INDEX,
     output:
-        bam=temp(
-            STAR
-            / "{sample_id}.{library_id}/{sample_id}.{library_id}.Aligned.sortedByCoord.out.bam"
-        ),
-        counts=STAR
-        / "{sample_id}.{library_id}/{sample_id}.{library_id}.ReadsPerGene.out.tab",
-        out=STAR / "{sample_id}.{library_id}/{sample_id}.{library_id}.Log.final.out",
+        bam=temp(STAR / "{sample_id}.{library_id}.Aligned.sortedByCoord.out.bam"),
+        counts=STAR / "{sample_id}.{library_id}.ReadsPerGene.out.tab",
+        out=STAR / "{sample_id}.{library_id}.Log.final.out",
     log:
-        STAR / "{sample_id}.{library_id}/{sample_id}.{library_id}.log",
+        STAR / "{sample_id}.{library_id}.log",
     params:
         out_prefix=get_star_out_prefix,
     conda:
@@ -74,8 +70,7 @@ rule quantify__star__align:
     """Align all libraries with STAR"""
     input:
         [
-            STAR
-            / f"{sample_id}.{library_id}/{sample_id}.{library_id}.ReadsPerGene.out.tab"
+            STAR / f"{sample_id}.{library_id}.ReadsPerGene.out.tab"
             for sample_id, library_id in SAMPLE_LIBRARY
         ],
 
@@ -87,13 +82,12 @@ rule _quantify__star__bam_to_cram:
     other way to use minimizers on the unmapped fraction.
     """
     input:
-        bam=STAR
-        / "{sample_id}.{library_id}/{sample_id}.{library_id}.Aligned.sortedByCoord.out.bam",
+        bam=STAR / "{sample_id}.{library_id}.Aligned.sortedByCoord.out.bam",
         reference=REFERENCE / "genome.fa",
     output:
-        cram=protected(STAR / "{sample_id}.{library_id}/{sample_id}.{library_id}.cram"),
+        cram=protected(STAR / "{sample_id}.{library_id}.cram"),
     log:
-        STAR / "{sample_id}.{library_id}/{sample_id}.{library_id}.cram.log",
+        STAR / "{sample_id}.{library_id}.cram.log",
     conda:
         "__environment__.yml"
     threads: 24
@@ -119,7 +113,7 @@ rule quantify__star__bam_to_cram:
     """Convert to cram all the libraries"""
     input:
         [
-            STAR / f"{sample_id}.{library_id}/{sample_id}.{library_id}.cram"
+            STAR / f"{sample_id}.{library_id}.cram"
             for sample_id, library_id in SAMPLE_LIBRARY
         ],
 
@@ -129,9 +123,9 @@ rule _quantify__star__aggregate_counts:
     input:
         rules.quantify__star__align.input,
     output:
-        tsv=STAR / "counts.tsv",
+        tsv=QUANTIFY / "counts.tsv",
     log:
-        STAR / "counts.log",
+        QUANTIFY / "counts.log",
     conda:
         "__environment__.yml"
     params:
@@ -149,11 +143,11 @@ rule quantify__star__report:
     """Get all reports for star"""
     input:
         logs=[
-            STAR / f"{sample_id}.{library_id}/{sample_id}.{library_id}.Log.final.out"
+            STAR / f"{sample_id}.{library_id}.Log.final.out"
             for sample_id, library_id in SAMPLE_LIBRARY
         ]
         + [
-            STAR / f"{sample_id}.{library_id}/{sample_id}.{library_id}.{report}"
+            STAR / f"{sample_id}.{library_id}.{report}"
             for report in BAM_REPORTS
             for sample_id, library_id in SAMPLE_LIBRARY
         ],

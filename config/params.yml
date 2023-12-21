@@ -1,9 +1,6 @@
-max_threads: 96
+preprocess:
 
-fastp:
-  extra: ""
-
-star:
-  index:
-    sjdbOverhang: 149
-  align:
+quantify:
+  star:
+    index:
+      sjdbOverhang: 149

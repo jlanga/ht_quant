@@ -17,11 +17,10 @@ rule __preprocess__fastp__trim:
     params:
         adapter_forward=get_forward_adapter,
         adapter_reverse=get_reverse_adapter,
-        extra=params["fastp"]["extra"],
-    threads: 16  # Doesn't work above 16
+    threads: 24  # Doesn't work above 16
     resources:
         mem_mb=4 * 1024,
-        runtime=24 * 60,
+        runtime=1 * 60,
     conda:
         "__environment__.yml"
     shell:
@@ -42,7 +41,6 @@ rule __preprocess__fastp__trim:
             --adapter_sequence {params.adapter_forward} \
             --adapter_sequence_r2 {params.adapter_reverse} \
             --thread {threads} \
-            {params.extra} \
         2> {log} 1>&2
         """
 
