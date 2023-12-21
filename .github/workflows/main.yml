@@ -44,7 +44,6 @@ jobs:
           directory: .
           snakefile: workflow/Snakefile
           args: >
-            --conda-cleanup-pkgs cache
             --conda-create-envs-only
             --conda-frontend mamba
             --cores 3
@@ -60,7 +59,6 @@ jobs:
           snakefile: workflow/Snakefile
           args: >
             preprocess
-            --conda-cleanup-pkgs cache
             --conda-frontend mamba
             --cores 3
             --latency-wait 5
@@ -75,7 +73,6 @@ jobs:
           snakefile: workflow/Snakefile
           args: >
             quantify
-            --conda-cleanup-pkgs cache
             --conda-frontend mamba
             --cores 3
             --latency-wait 5
@@ -90,7 +87,6 @@ jobs:
           snakefile: workflow/Snakefile
           args: >
             report
-            --conda-cleanup-pkgs cache
             --conda-frontend mamba
             --cores 3
             --latency-wait 5
