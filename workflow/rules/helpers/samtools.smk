@@ -1,4 +1,4 @@
-rule __helpers__samtools__index_cram:
+rule _helpers__samtools__index_cram:
     """Generate a cram index"""
     input:
         "{prefix}.cram",
@@ -33,7 +33,7 @@ rule _helpers__samtools__stats_cram:
         """
 
 
-rule __helpers__samtools__flagstats_cram:
+rule _helpers__samtools__flagstats_cram:
     """Compute flagstats for a cram"""
     input:
         cram="{prefix}.cram",
@@ -48,7 +48,7 @@ rule __helpers__samtools__flagstats_cram:
         "samtools flagstats {input.cram} > {output.txt} 2> {log}"
 
 
-rule __helpers__samtools__idxstats_cram:
+rule _helpers__samtools__idxstats_cram:
     """Compute idxstats for a cram"""
     input:
         cram="{prefix}.cram",
