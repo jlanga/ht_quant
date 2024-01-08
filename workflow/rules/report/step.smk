@@ -49,9 +49,9 @@ rule report__step__preprocess:
         rules.preprocess__fastp__fastqc.input,
         config=REPORT / "config.yaml",
     output:
-        html=REPORT_STEP / "fastp.html",
+        html=REPORT_STEP / "preprocess.html",
     log:
-        REPORT_STEP / "fastp.log",
+        REPORT_STEP / "preprocess.log",
     conda:
         "__environment__.yml"
     params:
@@ -59,9 +59,9 @@ rule report__step__preprocess:
     shell:
         """
         multiqc \
-            --title fastp \
+            --title preprocess \
             --force \
-            --filename fastp \
+            --filename preprocess \
             --outdir {params.dir} \
             --config {input.config} \
             {input} \
@@ -75,9 +75,9 @@ rule report__step__quantify:
         rules.quantify__star__report.input,
         config=REPORT / "config.yaml",
     output:
-        html=REPORT_STEP / "star.html",
+        html=REPORT_STEP / "quantify.html",
     log:
-        REPORT_STEP / "star.log",
+        REPORT_STEP / "quantify.log",
     conda:
         "__environment__.yml"
     params:
@@ -85,9 +85,9 @@ rule report__step__quantify:
     shell:
         """
         multiqc \
-            --title star \
+            --title quantify \
             --force \
-            --filename star \
+            --filename quantify \
             --outdir {params.dir} \
             --config {input.config} \
             {input} \
