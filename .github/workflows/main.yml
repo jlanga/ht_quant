@@ -39,7 +39,7 @@ jobs:
           key: snakemake-conda
 
       - name: Download environments
-        uses: snakemake/snakemake-github-action@v1.25.1
+        uses: ezherman/snakemake-github-action@5027c0e706ada924ab91e0501bd92185fc98de3c
         with:
           directory: .
           snakefile: workflow/Snakefile
@@ -50,7 +50,7 @@ jobs:
         run: conda clean --all --yes
 
       - name: Preprocess
-        uses: snakemake/snakemake-github-action@v1.25.1
+        uses: ezherman/snakemake-github-action@5027c0e706ada924ab91e0501bd92185fc98de3c
         with:
           directory: .
           snakefile: workflow/Snakefile
@@ -64,7 +64,7 @@ jobs:
 
 
       - name: Quantify
-        uses: snakemake/snakemake-github-action@v1.25.1
+        uses: ezherman/snakemake-github-action@5027c0e706ada924ab91e0501bd92185fc98de3c
         with:
           directory: .
           snakefile: workflow/Snakefile
@@ -78,7 +78,7 @@ jobs:
 
 
       - name: Report
-        uses: snakemake/snakemake-github-action@v1.25.1
+        uses: ezherman/snakemake-github-action@5027c0e706ada924ab91e0501bd92185fc98de3c
         with:
           directory: .
           snakefile: workflow/Snakefile
