@@ -1,4 +1,4 @@
-rule _report__library__multiqc_library:
+rule report__library__:
     """Make a MultiQC report for a single library
 
     The --dirs option is used to tell MultiQC to append the folder names to
