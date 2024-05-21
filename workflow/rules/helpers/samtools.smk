@@ -18,7 +18,6 @@ rule helpers__samtools__stats_cram__:
         cram="{prefix}.cram",
         crai="{prefix}.cram.crai",
         reference=REFERENCE / "genome.fa",
-        fai=REFERENCE / "genome.fa.fai",
     output:
         tsv="{prefix}.stats.tsv",
     log:

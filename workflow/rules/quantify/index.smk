@@ -11,10 +11,7 @@ rule quantify__index__:
         "__environment__.yml"
     log:
         REFERENCE / "index.log",
-    threads: 24
-    resources:
-        mem_mb=32 * 1024,
-        runtime=24 * 60,
+    cache: True
     shell:
         """
         STAR \

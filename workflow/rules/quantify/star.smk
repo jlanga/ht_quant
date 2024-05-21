@@ -121,4 +121,4 @@ rule quantify__star:
     """Run all the star rules"""
     input:
         rules.quantify__star__bam_to_cram.input,
-        rules._quantify__star__aggregate_counts.output,
+        rules.quantify__star__aggregate_counts__.output,
