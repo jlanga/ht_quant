@@ -26,4 +26,4 @@ rule quantify__index__:
 
 rule quantify__index:
     input:
-        directory(INDEX)
+        INDEX
