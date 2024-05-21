@@ -1,4 +1,4 @@
-rule _helpers__fastqc__process_one:
+rule helpers__fastqc__:
     """Run fastqc over one read file"""
     input:
         fastq="{prefix}.fq.gz",

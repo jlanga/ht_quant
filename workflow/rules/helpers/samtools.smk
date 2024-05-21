@@ -1,4 +1,4 @@
-rule _helpers__samtools__index_cram:
+rule helpers__samtools__crai__:
     """Generate a cram index"""
     input:
         "{prefix}.cram",
@@ -12,12 +12,13 @@ rule _helpers__samtools__index_cram:
         "samtools index {input} 2> {log} 1>&2"
 
 
-rule _helpers__samtools__stats_cram:
+rule helpers__samtools__stats_cram__:
     """Compute stats for a cram"""
     input:
         cram="{prefix}.cram",
         crai="{prefix}.cram.crai",
         reference=REFERENCE / "genome.fa",
+        fai=REFERENCE / "genome.fa.fai",
     output:
         tsv="{prefix}.stats.tsv",
     log:
@@ -33,7 +34,7 @@ rule _helpers__samtools__stats_cram:
         """
 
 
-rule _helpers__samtools__flagstats_cram:
+rule helpers__samtools__flagstats_cram__:
     """Compute flagstats for a cram"""
     input:
         cram="{prefix}.cram",
@@ -48,7 +49,7 @@ rule _helpers__samtools__flagstats_cram:
         "samtools flagstats {input.cram} > {output.txt} 2> {log}"
 
 
-rule _helpers__samtools__idxstats_cram:
+rule helpers__samtools__idxstats_cram__:
     """Compute idxstats for a cram"""
     input:
         cram="{prefix}.cram",
