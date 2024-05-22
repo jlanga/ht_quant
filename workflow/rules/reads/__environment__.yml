@@ -1,8 +1,6 @@
-# reads.yml: environment to deal with the raw reads
----
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - coreutils=9.3
+  - coreutils =9.5

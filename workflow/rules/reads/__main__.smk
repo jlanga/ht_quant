@@ -1,7 +1,7 @@
 include: "__functions__.smk"
 
 
-rule _reads__link:
+rule reads__link__:
     """Make a link to the original file, with a prettier name than default"""
     input:
         forward_=get_forward,

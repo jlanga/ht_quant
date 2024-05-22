@@ -1,4 +1,4 @@
-rule report__step__generate_config_file:
+rule report__step__generate_config_file__:
     """Generate the config file for multiqc"""
     output:
         REPORT / "config.yaml",
@@ -16,7 +16,7 @@ rule report__step__generate_config_file:
         """
 
 
-rule report__step__reads:
+rule report__step__reads__:
     """Collect all reports for the reads step"""
     input:
         files=rules.reads__fastqc.input,
@@ -42,7 +42,7 @@ rule report__step__reads:
         """
 
 
-rule report__step__preprocess:
+rule report__step__preprocess__:
     """Collect all reports for the fastp step"""
     input:
         rules.preprocess__fastp__report.input,
@@ -69,7 +69,7 @@ rule report__step__preprocess:
         """
 
 
-rule report__step__quantify:
+rule report__step__quantify__:
     """Collect all reports for the star step"""
     input:
         rules.quantify__star__report.input,
@@ -98,6 +98,10 @@ rule report__step__quantify:
 rule report__step:
     """Collect all per step reports for the pipeline"""
     input:
-        rules.report__step__reads.output,
-        rules.report__step__preprocess.output,
-        rules.report__step__quantify.output,
+        rules.report__step__reads__.output,
+        rules.report__step__preprocess__.output,
+        rules.report__step__quantify__.output,
+
+
+localrules:
+    report__step__generate_config_file__,

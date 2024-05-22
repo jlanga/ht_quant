@@ -1,4 +1,4 @@
-rule reference__decompress_fasta:
+rule reference__decompress_fasta__:
     """Decompress the reference genome and save it in the reference folder."""
     input:
         fa=features["dna"],
@@ -9,10 +9,10 @@ rule reference__decompress_fasta:
     conda:
         "__environment__.yml"
     shell:
-        "pigz -dc {input.fa} > {output.fa} 2> {log}"
+        "pigz --decompress --stdout {input.fa} > {output.fa} 2> {log}"
 
 
-rule reference__decompress_gtf:
+rule reference__decompress_gtf__:
     """Decompress the reference annotation and save it in the reference folder."""
     input:
         gtf=features["gtf"],
@@ -23,10 +23,10 @@ rule reference__decompress_gtf:
     conda:
         "__environment__.yml"
     shell:
-        "pigz -dc {input.gtf} > {output.gtf}"
+        "pigz --decompress --stdout {input.gtf} > {output.gtf}"
 
 
 rule reference:
     input:
-        rules.reference__decompress_fasta.output,
-        rules.reference__decompress_gtf.output,
+        rules.reference__decompress_fasta__.output,
+        rules.reference__decompress_gtf__.output,
