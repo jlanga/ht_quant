@@ -1,5 +1,5 @@
 [![Snakemake](https://img.shields.io/badge/snakemake-≥6.3.0-brightgreen.svg)](https://snakemake.github.io)
-[![GitHub actions status](https://github.com/3d-omics/ht_quant/workflows/Tests/badge.svg?branch=devel)](https://github.com/3d-omics/ht_quant/actions?query=branch%3Adevel+workflow%3ATests)
+[![Tests](https://github.com/3d-omics/ht_quant/actions/workflows/main.yml/badge.svg?branch=devel)](https://github.com/3d-omics/ht_quant/actions/workflows/main.yml)
 
 # Snakemake workflow: `ht_quant`
 
