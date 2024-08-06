@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/3d-omics/ht_quant/compare/v0.1.0...v0.2.0) (2024-08-06)
+
+
+### Features
+
+* pin dependencies ([123de53](https://github.com/3d-omics/ht_quant/commit/123de536ef2a6ce8128771724e2251ea84f8f043))
+
 ## [0.1.0](https://github.com/3d-omics/ht_quant/compare/v0.0.1...v0.1.0) (2024-05-22)
 
 
