@@ -41,8 +41,6 @@ rule star__index:
             --sjdbOverhang     {params.sjdbOverhang} \
             --genomeDir        {params.out_dir} \
         2> {log} 1>&2
-
-        mv Log.out {params.out_dir}
         """
 
 

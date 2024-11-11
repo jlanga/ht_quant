@@ -21,7 +21,7 @@ rule fastp:
         extra=params["fastp"]["extra"],
         adapters=compose_adapters,
     wrapper:
-        "v4.7.1/bio/fastp"
+        "v5.0.2/bio/fastp"
 
 
 rule fastp__all:
