@@ -14,20 +14,27 @@ samples = pd.read_table("config/samples.tsv", comment="#", dtype="str")
 # Generate useful variables
 SAMPLES = samples["sample_id"].drop_duplicates().values.tolist()
 SAMPLE_LIBRARY = samples[["sample_id", "library_id"]].values.tolist()
-BAM_REPORTS = ["stats.tsv", "flagstats.txt", "idxstats.tsv"]
-
+BAM_REPORTS = ["stats.tsv"]  # , "flagstats.txt", "idxstats.tsv"]
 HOST_NAME = features["host_name"]
-print(HOST_NAME)
 
 
 include: "rules/folders.smk"
-include: "rules/helpers/__main__.smk"
 include: "rules/reads.smk"
 include: "rules/fastp.smk"
 include: "rules/multiqc.smk"
 include: "rules/reference.smk"
 include: "rules/star.smk"
 include: "rules/counts.smk"
+
+
+module helpers:
+    snakefile:
+        github("jlanga/snakehelpers", path="workflow/Snakefile", branch="devel")
+    config:
+        params
+
+
+use rule * from helpers as helpers__*
 
 
 rule all:

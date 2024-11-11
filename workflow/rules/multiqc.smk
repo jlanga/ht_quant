@@ -28,15 +28,15 @@ rule multiqc:
             FASTP / f"{sample_id}.{library_id}_fastp.json"
             for sample_id, library_id in SAMPLE_LIBRARY
         ],
-        # star=[
-        #     STAR / f"{sample_id}.{library_id}.Log.final.out"
-        #     for sample_id, library_id in SAMPLE_LIBRARY
-        # ],
-        # samtools=[
-        #     STAR / f"{sample_id}.{library_id}.{report}"
-        #     for report in BAM_REPORTS
-        #     for sample_id, library_id in SAMPLE_LIBRARY
-        # ],
+        star=[
+            STAR / f"{sample_id}.{library_id}.Log.final.out"
+            for sample_id, library_id in SAMPLE_LIBRARY
+        ],
+        samtools=[
+            STAR / f"{sample_id}.{library_id}.Aligned.sortedByCoord.out.{report}"
+            for report in BAM_REPORTS
+            for sample_id, library_id in SAMPLE_LIBRARY
+        ],
         config=RESULTS / "multiqc_config.yaml",
     output:
         html=RESULTS / "ht_quant.html",
@@ -56,6 +56,8 @@ rule multiqc:
             --config {input.config} \
             {input.reads} \
             {input.fastp} \
+            {input.star} \
+            {input.samtools} \
         2> {log} 1>&2
         """
 
