@@ -1,6 +1,8 @@
+__use_yte__: True
+
 default-resources:
-    runtime: 1h
-    mem_mb: 1G
+    runtime: 60
+    mem_mb: 1024
 
 set-threads:
     fastp: 24
@@ -9,11 +11,11 @@ set-threads:
 
 set-resources:
     fastp:
-        mem_mb: 4G
+        mem_mb: 4 * 1024
         runtime: 1h
     star__index:
-        mem_mb: 32G
+        mem_mb: 32 * 1024
         runtime: 1d
     star__align:
-        mem_mb: 32G
+        mem_mb: 32 * 1024
         runtime: 1d

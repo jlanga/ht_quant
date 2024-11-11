@@ -84,6 +84,8 @@ rule star__align:
         out_prefix=lambda w: str(STAR / f"{w.sample_id}.{w.library_id}."),
     conda:
         "../environments/star.yml"
+    group:
+        "{sample_id}.{library_id}"
     shell:
         """
         ulimit -n 90000 2> {log} 1>&2

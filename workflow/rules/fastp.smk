@@ -20,6 +20,8 @@ rule fastp:
     params:
         extra=params["fastp"]["extra"],
         adapters=compose_adapters,
+    group:
+        "{sample_id}.{library_id}"
     wrapper:
         "v5.0.2/bio/fastp"
 
