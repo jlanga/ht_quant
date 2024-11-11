@@ -16,6 +16,9 @@ SAMPLES = samples["sample_id"].drop_duplicates().values.tolist()
 SAMPLE_LIBRARY = samples[["sample_id", "library_id"]].values.tolist()
 BAM_REPORTS = ["stats.tsv", "flagstats.txt", "idxstats.tsv"]
 
+HOST_NAME=features["host_name"]
+print(HOST_NAME)
+
 
 include: "rules/folders.smk"
 include: "rules/helpers/__main__.smk"
@@ -23,6 +26,7 @@ include: "rules/reference/__main__.smk"
 include: "rules/reads.smk"
 include: "rules/fastp.smk"
 include: "rules/multiqc.smk"
+include: "rules/reference.smk"
 # include: "rules/quantify/__main__.smk"
 # include: "rules/report/__main__.smk"
 
@@ -31,6 +35,7 @@ rule all:
     input:
         rules.reads__all.input,
         rules.fastp__all.input,
+        rules.reference__all.input,
         # rules.star__all.input,
         rules.multiqc__all.input,
 
