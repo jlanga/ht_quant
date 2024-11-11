@@ -1,15 +1,14 @@
-# Results
-READS = Path("results/reads")
-REFERENCE = Path("results/reference")
 
-PREPROCESS = Path("results/preprocess")
-FASTP = PREPROCESS / "fastp"
+RESULTS = Path("results")
 
-QUANTIFY = Path("results/quantify")
-INDEX = QUANTIFY / "index"
-STAR = QUANTIFY / "star"
+PRE = RESULTS / "preprocess"
+READS = PRE / "reads"
+FASTP = PRE / "fastp"
 
-# Reports
-REPORT = Path("reports")
-REPORT_STEP = REPORT / "step"
-REPORT_LIBRARY = REPORT / "library"
+
+QUANT = RESULTS / "quantify"
+REFERENCE = QUANT / "reference"
+
+
+INDEX = QUANT / "index"
+STAR = QUANT / "star"
