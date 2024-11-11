@@ -21,7 +21,7 @@ include: "rules/folders.smk"
 include: "rules/helpers/__main__.smk"
 include: "rules/reference/__main__.smk"
 include: "rules/reads.smk"
-include: "rules/preprocess.smk"
+include: "rules/fastp.smk"
 include: "rules/multiqc.smk"
 # include: "rules/quantify/__main__.smk"
 # include: "rules/report/__main__.smk"
@@ -29,8 +29,8 @@ include: "rules/multiqc.smk"
 
 rule all:
     input:
-        # rules.reads.input,
-        # rules.reference.input,
-        rules.preprocess__all.input,
-        # rules.quantify.input,
-        # rules.report.input,
+        rules.reads__all.input,
+        rules.fastp__all.input,
+        # rules.star__all.input,
+        rules.multiqc__all.input,
+

@@ -1,4 +1,4 @@
-rule report__step__generate_config_file__:
+rule multiqc__config:
     """Generate the config file for multiqc"""
     output:
         RESULTS / "multiqc_config.yaml",
@@ -16,7 +16,7 @@ rule report__step__generate_config_file__:
         """
 
 
-rule preprocess__multiqc:
+rule multiqc:
     """Collect all reports for the reads step"""
     input:
         reads=[
@@ -28,39 +28,37 @@ rule preprocess__multiqc:
             FASTP / f"{sample_id}.{library_id}_fastp.json"
             for sample_id, library_id in SAMPLE_LIBRARY
         ],
-        star=[
-            STAR / f"{sample_id}.{library_id}.Log.final.out"
-            for sample_id, library_id in SAMPLE_LIBRARY
-        ],
-        samtools=[
-            STAR / f"{sample_id}.{library_id}.{report}"
-            for report in BAM_REPORTS
-            for sample_id, library_id in SAMPLE_LIBRARY
-        ],
+        # star=[
+        #     STAR / f"{sample_id}.{library_id}.Log.final.out"
+        #     for sample_id, library_id in SAMPLE_LIBRARY
+        # ],
+        # samtools=[
+        #     STAR / f"{sample_id}.{library_id}.{report}"
+        #     for report in BAM_REPORTS
+        #     for sample_id, library_id in SAMPLE_LIBRARY
+        # ],
         config=RESULTS / "multiqc_config.yaml",
     output:
         html=RESULTS / "ht_quant.html",
     log:
         RESULTS / "ht_quant.log",
     conda:
-        "../environment/multiqc.yml"
+        "../environments/multiqc.yml"
     params:
         dir=RESULTS,
     shell:
         """
         multiqc \
-            --filename reads \
-            --title reads \
+            --filename ht_quant \
+            --title ht_quant \
             --force \
             --outdir {params.dir} \
             --config {input.config} \
             {input.reads} \
             {input.fastp} \
-            {input.star} \
-            {input.samtools} \
         2> {log} 1>&2
         """
 
-rule preprocess__multiqc__all:
+rule multiqc__all:
     input:
-        RESULTS / "preprocess.html",
+        RESULTS / "ht_quant.html",
