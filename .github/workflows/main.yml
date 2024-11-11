@@ -39,7 +39,7 @@ jobs:
           key: snakemake-conda
 
       - name: Download environments
-        uses: snakemake/snakemake-github-action@v1.25.1
+        uses: snakemake/snakemake-github-action@v1
         with:
           directory: .
           snakefile: workflow/Snakefile
@@ -54,7 +54,7 @@ jobs:
         run: conda clean --all --yes
 
       - name: Run tests
-        uses: snakemake/snakemake-github-action@v1.25.1
+        uses: snakemake/snakemake-github-action@v1
         with:
           directory: .
           snakefile: workflow/Snakefile
@@ -71,7 +71,7 @@ jobs:
         run: |
           sudo find results -not -name "*.log" -type f -delete -print
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: results
