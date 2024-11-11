@@ -2,9 +2,9 @@ rule reference__decompress_dna:
     input:
         fasta=features["dna"],
     output:
-        REFERENCE / (HOST_NAME + ".fa"),
+        REFERENCE / f"{HOST_NAME}.fa",
     log:
-        REFERENCE / (HOST_NAME + ".fa.log"),
+        REFERENCE / f"{HOST_NAME}.fa.log",
     conda:
         "../environments/reference.yml"
     cache: True
@@ -23,9 +23,9 @@ rule reference__decompress_gtf:
     input:
         gtf=features["gtf"],
     output:
-        REFERENCE / (HOST_NAME + ".gtf"),
+        REFERENCE / f"{HOST_NAME}.gtf",
     log:
-        REFERENCE / (HOST_NAME + ".gtf.log"),
+        REFERENCE / f"{HOST_NAME}.gtf.log",
     conda:
         "../environments/reference.yml"
     cache: True

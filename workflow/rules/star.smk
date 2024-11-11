@@ -1,8 +1,8 @@
 rule star__index:
     """Build STAR index of the reference genome"""
     input:
-        dna=REFERENCE / (HOST_NAME + ".fa"),
-        gtf=REFERENCE / (HOST_NAME + ".gtf"),
+        dna=REFERENCE / f"{HOST_NAME}.fa",
+        gtf=REFERENCE / f"{HOST_NAME}.gtf",
     output:
         multiext(
             str(INDEX / HOST_NAME) + "/",
@@ -24,13 +24,13 @@ rule star__index:
             "transcriptInfo.tab",
         ),
     log:
-        INDEX / (HOST_NAME + ".log"),
+        INDEX / f"{HOST_NAME}.log",
     conda:
         "../environments/star.yml"
     cache: True
     params:
         sjdbOverhang=params["quantify"]["star"]["index"]["sjdbOverhang"],
-        out_dir=str(INDEX / HOST_NAME) + "/",
+        out_dir=lambda w: str(INDEX / HOST_NAME),
     shell:
         """
         STAR \
@@ -80,7 +80,7 @@ rule star__align:
     log:
         STAR / "{sample_id}.{library_id}.log",
     params:
-        index_dir=str(INDEX / HOST_NAME),
+        index_dir=lambda w: str(INDEX / HOST_NAME),
         out_prefix=lambda w: str(STAR / f"{w.sample_id}.{w.library_id}."),
     conda:
         "../environments/star.yml"
