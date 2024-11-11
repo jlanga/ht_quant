@@ -20,6 +20,7 @@ BAM_REPORTS = ["stats.tsv", "flagstats.txt", "idxstats.tsv"]
 include: "rules/folders.smk"
 include: "rules/helpers/__main__.smk"
 include: "rules/reference/__main__.smk"
+include: "rules/reads.smk"
 include: "rules/preprocess.smk"
 include: "rules/multiqc.smk"
 # include: "rules/quantify/__main__.smk"

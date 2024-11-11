@@ -1,14 +1,7 @@
-
 RESULTS = Path("results")
 
-PRE = RESULTS / "preprocess"
-READS = PRE / "reads"
-FASTP = PRE / "fastp"
-
-
-QUANT = RESULTS / "quantify"
-REFERENCE = QUANT / "reference"
-
-
-INDEX = QUANT / "index"
-STAR = QUANT / "star"
+READS = RESULTS / "reads"
+FASTP = RESULTS / "fastp"
+REFERENCE = RESULTS / "reference"
+INDEX = RESULTS / "index"
+STAR = RESULTS / "star"

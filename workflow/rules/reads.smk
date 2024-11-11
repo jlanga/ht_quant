@@ -1,6 +1,6 @@
 include: "reads_functions.smk"
 
-rule preprocess__reads:
+rule reads:
     """Make a link to the original file, with a prettier name than default"""
     input:
         forward_=get_forward,
@@ -11,7 +11,7 @@ rule preprocess__reads:
     log:
         READS / "{sample_id}.{library_id}.log",
     conda:
-        "__environment__.yml"
+        "../environments/reads.yml"
     shell:
         """
         ln --symbolic $(readlink --canonicalize {input.forward_}) {output.forward_}
@@ -19,7 +19,7 @@ rule preprocess__reads:
         """
 
 
-rule preprocess__reads__all:
+rule reads__all:
     input:
         [
             READS / f"{sample_id}.{library_id}_{end}.fq.gz"
