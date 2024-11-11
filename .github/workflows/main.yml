@@ -65,6 +65,7 @@ jobs:
             --latency-wait 5
             --show-failed-logs
             --use-conda
+            --profile profile/default
 
 
       - name: Delete everything
