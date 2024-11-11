@@ -59,6 +59,7 @@ rule multiqc:
         2> {log} 1>&2
         """
 
+
 rule multiqc__all:
     input:
         RESULTS / "ht_quant.html",

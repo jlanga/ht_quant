@@ -1,5 +1,6 @@
 include: "fastp_functions.smk"
 
+
 rule fastp:
     """Run fastp on one PE library"""
     input:

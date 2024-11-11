@@ -15,7 +15,7 @@ rule counts:
         folder=STAR,
     shell:
         """
-        Rscript workflow/scripts/join_star_table.R \
+        Rscript --no-init-file workflow/scripts/join_star_table.R \
             --input-folder {params.folder} \
             --output-file {output.tsv} \
         2> {log} 1>&2

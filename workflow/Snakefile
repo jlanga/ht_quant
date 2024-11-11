@@ -16,7 +16,7 @@ SAMPLES = samples["sample_id"].drop_duplicates().values.tolist()
 SAMPLE_LIBRARY = samples[["sample_id", "library_id"]].values.tolist()
 BAM_REPORTS = ["stats.tsv", "flagstats.txt", "idxstats.tsv"]
 
-HOST_NAME=features["host_name"]
+HOST_NAME = features["host_name"]
 print(HOST_NAME)
 
 
@@ -29,6 +29,8 @@ include: "rules/multiqc.smk"
 include: "rules/reference.smk"
 include: "rules/star.smk"
 include: "rules/counts.smk"
+
+
 # include: "rules/quantify/__main__.smk"
 # include: "rules/report/__main__.smk"
 
@@ -41,4 +43,3 @@ rule all:
         rules.star__all.input,
         rules.counts__all.input,
         rules.multiqc__all.input,
-

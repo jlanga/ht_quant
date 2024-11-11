@@ -51,8 +51,6 @@ rule star__index__all:
         rules.star__index.output,
 
 
-
-
 rule star__align:
     """Align one library with STAR"""
     input:
