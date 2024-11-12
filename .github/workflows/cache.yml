@@ -26,5 +26,4 @@ jobs:
           args: >
             --use-conda
             --conda-create-envs-only
-            --conda-frontend mamba
             --cores 1

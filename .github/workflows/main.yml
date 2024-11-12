@@ -45,7 +45,6 @@ jobs:
           snakefile: workflow/Snakefile
           args: >
             --use-conda
-            --conda-frontend mamba
             --conda-create-envs-only
             --cores 3
 
@@ -60,13 +59,12 @@ jobs:
           snakefile: workflow/Snakefile
           args: >
             all
-            --conda-frontend mamba
+            --all-temp
             --cores 3
             --latency-wait 5
+            --profile profile/default
             --show-failed-logs
             --use-conda
-            --profile profile/default
-            --all-temp
 
       - name: Delete everything
         run: |
