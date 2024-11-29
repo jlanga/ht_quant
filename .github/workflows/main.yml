@@ -48,7 +48,6 @@ jobs:
             --conda-create-envs-only
             --cores 3
 
-
       - name: Clean conda cache
         run: conda clean --all --yes
 
