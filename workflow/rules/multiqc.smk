@@ -1,21 +1,3 @@
-rule multiqc__config:
-    """Generate the config file for multiqc"""
-    output:
-        RESULTS / "multiqc_config.yaml",
-    log:
-        RESULTS / "multiqc_config.log",
-    conda:
-        "../environments/multiqc.yml"
-    params:
-        chromosome_x=features["sex_chromosomes"][0],
-        chromosome_y=features["sex_chromosomes"][1],
-    shell:
-        """
-        echo "samtools_idxstats_xchr: {params.chromosome_x}" >  {output} 2>  {log}
-        echo "samtools_idxstats_ychr: {params.chromosome_y}" >> {output} 2>> {log}
-        """
-
-
 rule multiqc:
     """Collect all reports for the reads step"""
     input:
@@ -37,29 +19,15 @@ rule multiqc:
             for report in BAM_REPORTS
             for sample_id, library_id in SAMPLE_LIBRARY
         ],
-        config=RESULTS / "multiqc_config.yaml",
     output:
         html=RESULTS / "ht_quant.html",
+        zip=RESULTS / "ht_quant.zip",
     log:
         RESULTS / "ht_quant.log",
-    conda:
-        "../environments/multiqc.yml"
     params:
-        dir=RESULTS,
-    shell:
-        """
-        multiqc \
-            --filename ht_quant \
-            --title ht_quant \
-            --force \
-            --outdir {params.dir} \
-            --config {input.config} \
-            {input.reads} \
-            {input.fastp} \
-            {input.star} \
-            {input.samtools} \
-        2> {log} 1>&2
-        """
+        extra="--title ht_quant --force",
+    wrapper:
+        "v5.2.1/bio/multiqc"
 
 
 rule multiqc__all:

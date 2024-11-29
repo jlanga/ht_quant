@@ -1,3 +1,4 @@
+# NOTE: do not use wrapper because it uses a directory, and therefore it cannot be cached
 rule star__index:
     """Build STAR index of the reference genome"""
     input:
@@ -49,6 +50,7 @@ rule star__index__all:
         rules.star__index.output,
 
 
+# NOTE: do not use wrapper because it uses a directory, and therefore it cannot be cached
 rule star__align:
     """Align one library with STAR"""
     input:
@@ -85,7 +87,7 @@ rule star__align:
     conda:
         "../environments/star.yml"
     group:
-        "{sample_id}.{library_id}"
+        "quant__{sample_id}.{library_id}"
     shell:
         """
         ulimit -n 90000 2> {log} 1>&2
@@ -114,7 +116,41 @@ rule star__align__all:
         ],
 
 
+rule star__process__counts:
+    input:
+        counts=STAR / "{sample_id}.{library_id}.ReadsPerGene.out.tab",
+    output:
+        STAR / "{sample_id}.{library_id}.tsv",
+    log:
+        STAR / "{sample_id}.{library_id}.counts.log",
+    params:
+        tag=lambda w: f"{w.sample_id}.{w.library_id}",
+    conda:
+        "base"
+    shell:
+        """
+        echo "gene_id\t{params.tag}" > {output} 2> {log}
+        ( tail -n+5 {input.counts} | cut -f 1,2 >> {output} ) 2>> {log}
+        """
+
+
+rule star__aggregate:
+    """Join individual count tables into one"""
+    input:
+        [
+            STAR / f"{sample_id}.{library_id}.tsv"
+            for sample_id, library_id in SAMPLE_LIBRARY
+        ],
+    output:
+        tsv=RESULTS / "counts.tsv.gz",
+    log:
+        RESULTS / "counts.log",
+    params:
+        subcommand="join",
+    wrapper:
+        "v5.2.1/utils/csvtk"
+
+
 rule star__all:
     input:
-        rules.star__index__all.input,
-        rules.star__align__all.input,
+        rules.star__aggregate.output,

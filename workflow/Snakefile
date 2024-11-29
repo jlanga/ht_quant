@@ -29,7 +29,6 @@ include: "rules/fastp.smk"
 include: "rules/multiqc.smk"
 include: "rules/reference.smk"
 include: "rules/star.smk"
-include: "rules/counts.smk"
 
 
 module helpers:
@@ -48,5 +47,4 @@ rule all:
         rules.fastp__all.input,
         rules.reference__all.input,
         rules.star__all.input,
-        rules.counts__all.input,
         rules.multiqc__all.input,

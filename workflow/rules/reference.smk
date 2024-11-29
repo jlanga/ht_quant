@@ -6,7 +6,7 @@ rule reference__decompress_dna:
     log:
         REFERENCE / f"{HOST_NAME}.fa.log",
     conda:
-        "../environments/reference.yml"
+        "base"
     cache: True
     shell:
         """
@@ -27,7 +27,7 @@ rule reference__decompress_gtf:
     log:
         REFERENCE / f"{HOST_NAME}.gtf.log",
     conda:
-        "../environments/reference.yml"
+        "base"
     cache: True
     shell:
         """
