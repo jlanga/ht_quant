@@ -32,6 +32,10 @@ rule star__index:
     params:
         sjdbOverhang=params["quantify"]["star"]["index"]["sjdbOverhang"],
         out_dir=lambda w: str(INDEX / HOST_NAME),
+    threads: 24
+    resources:
+        mem_mb=32 * 1024,
+        runtime=24 * 60,
     shell:
         """
         STAR \
@@ -88,6 +92,10 @@ rule star__align:
         "../environments/star.yml"
     group:
         "quant__{sample_id}.{library_id}"
+    threads: 24
+    resources:
+        mem_mb=32 * 1024,
+        runtime=24 * 60,
     shell:
         """
         ulimit -n 90000 2> {log} 1>&2
